@@ -190,11 +190,3 @@ class TextFilter:
             if blacklist_keyword in input_string:
                 return True
         return False
-
-
-if __name__ == "__main__":
-    tf = TextFilter.new_filter(
-        single_inclusion_filters=['hello', 'world'],
-        multi_inclusion_filters=['all', 'men', 'must die'],
-        exclusion_filters=['cat']
-    )
