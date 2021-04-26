@@ -90,7 +90,7 @@ class TextFilter:
     def file_filter(self, filename: Text, safe: bool = True, casefold: bool = True) -> bool:
         ctx = FilterContext(casefold=casefold)
         with open(filename, 'r') as h_file:
-            result = self.filter(h_file.read()) if not safe else self._safe_file_filter(h_file, ctx)
+            result = self._filter(h_file.read(), ctx) if not safe else self._safe_file_filter(h_file, ctx)
         return result
 
     def _safe_file_filter(self, file_handle: TextIO, ctx: FilterContext) -> bool:
