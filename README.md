@@ -1,2 +1,8 @@
-# pyfilter
-A small text filtering app
+# PyFilter
+
+A small, configurable text filtering app
+
+### Hyperparameters
+
+
+### Usage
