@@ -48,7 +48,52 @@ class TextFilter:
         self.multi_inclusion_filters.extend(multi_inclusion_filters)
         self.exclusion_filters.extend(exclusion_filters)
 
+    def set_filters(self, single_inclusion_filters: Iterable[Text] = None,
+                    multi_inclusion_filters: Iterable[Text] = None,
+                    exclusion_filters: Iterable[Text] = None) -> NoReturn:
+        """
+        Replace the current filters with new ones. Leaving any field empty will keep the current one.
+
+        :param single_inclusion_filters: New single_inclusion_filters
+        :param multi_inclusion_filters: New multi_inclusion_filters
+        :param exclusion_filters: New exclusion_filters
+        """
+
+        if single_inclusion_filters is not None:
+            self.single_inclusion_filters = list(single_inclusion_filters)
+        if multi_inclusion_filters is not None:
+            self.multi_inclusion_filters = list(multi_inclusion_filters)
+        if exclusion_filters is not None:
+            self.exclusion_filters = list(exclusion_filters)
+
+    def delete_filters(self, single_inclusion_filters: Iterable[Text] = (),
+                       multi_inclusion_filters: Iterable[Text] = (),
+                       exclusion_filters: Iterable[Text] = ()) -> NoReturn:
+        """
+        Delete keywords in filters if they exist
+
+        :param single_inclusion_filters: Single_inclusion_filters to delete
+        :param multi_inclusion_filters: Multi_inclusion_filters to delete
+        :param exclusion_filters: Exclusion_filters to delete
+        """
+
+        self._remove_keywords(single_inclusion_filters, self.single_inclusion_filters)
+        self._remove_keywords(multi_inclusion_filters, self.multi_inclusion_filters)
+        self._remove_keywords(exclusion_filters, self.exclusion_filters)
+
+    @staticmethod
+    def _remove_keywords(kw_list: Iterable[Text], filter_list: List[Text]) -> NoReturn:
+        for kw in kw_list:
+            # Using 'while' to handle multiple occurrences of the keyword in the filter list
+            while kw in filter_list:
+                filter_list.remove(kw)
+
     def _filter(self, input_string: Text, ctx: FilterContext) -> bool:
+        """
+        See filter method
+
+        :param ctx: A context with metadata pertaining to this filter request.
+        """
         ctx = ctx or self.default_context
         if not self.matched_any_single_inclusion_filters(input_string, ctx):
             return False
@@ -88,6 +133,15 @@ class TextFilter:
         return [input_string for input_string in input_list if self._filter(input_string, ctx)]
 
     def file_filter(self, filename: Text, safe: bool = True, casefold: bool = True) -> bool:
+        """
+        Run the filter on a file.
+
+        :param filename: The name of the file
+        :param safe: If this is True, the file will be loaded line by line, instead of all at once.
+        Prevents memory overflows and is recommended for larger files.
+        :param casefold: Should values be casefolded? (If True, Upper/Lowercase is ignored)
+        :return: See filter method
+        """
         ctx = FilterContext(casefold=casefold)
         with open(filename, 'r') as h_file:
             result = self._filter(h_file.read(), ctx) if not safe else self._safe_file_filter(h_file, ctx)
