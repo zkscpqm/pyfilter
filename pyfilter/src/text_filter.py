@@ -1,92 +1,86 @@
-from typing import Text, Iterable, NoReturn, List, TextIO, Set
+from typing import Text, Iterable, NoReturn, List, TextIO
 
 from pyfilter.src.filter_context import FilterContext
+from pyfilter.src.multi_match_filter import MultiMatchFilter
+from pyfilter.src.single_match_filter import SingleMatchFilter
 
 
 class TextFilter:
 
-    def __init__(self, single_inclusion_filters: List[Text],
-                 multi_inclusion_filters: List[Text],
-                 exclusion_filters: List[Text]):
+    def __init__(self, single_inclusion_keywords: List[Text],
+                 multi_inclusion_keywords: List[Text],
+                 exclusion_keywords: List[Text]):
         """
         Text filter constructor. Only takes lists. For different iterable types, use the new_filter constructor.
 
-        :param single_inclusion_filters: A list of keywords where at least one must be contained in the input
-        :param multi_inclusion_filters: A list of keywords where all must be contained in the input
-        :param exclusion_filters: A list of keywords where none should be contained in the input
+        :param single_inclusion_keywords: A list of keywords where at least one must be contained in the input
+        :param multi_inclusion_keywords: A list of keywords where all must be contained in the input
+        :param exclusion_keywords: A list of keywords where none should be contained in the input
         """
 
-        self.single_inclusion_filters: List[Text] = single_inclusion_filters
-        self.multi_inclusion_filters: List[Text] = multi_inclusion_filters
-        self.exclusion_filters: List[Text] = exclusion_filters
+        self.single_inclusion_filter: SingleMatchFilter = SingleMatchFilter(single_inclusion_keywords)
+        self.multi_inclusion_filter: MultiMatchFilter = MultiMatchFilter(multi_inclusion_keywords)
+        self.exclusion_filter: SingleMatchFilter = SingleMatchFilter(exclusion_keywords)
         self.default_context = FilterContext.get_default_context()
 
     @classmethod
-    def new_filter(cls, single_inclusion_filters: Iterable[Text] = (),
-                   multi_inclusion_filters: Iterable[Text] = (),
-                   exclusion_filters: Iterable[Text] = ()) -> 'TextFilter':
+    def new_filter(cls, single_inclusion_keywords: Iterable[Text] = (),
+                   multi_inclusion_keywords: Iterable[Text] = (),
+                   exclusion_keywords: Iterable[Text] = ()) -> 'TextFilter':
         """
         Alternate constructor taking in any iterable types. For parameter details, see __init__
         """
         return TextFilter(
-            single_inclusion_filters=list(single_inclusion_filters),
-            multi_inclusion_filters=list(multi_inclusion_filters),
-            exclusion_filters=list(exclusion_filters)
+            single_inclusion_keywords=list(single_inclusion_keywords),
+            multi_inclusion_keywords=list(multi_inclusion_keywords),
+            exclusion_keywords=list(exclusion_keywords)
         )
 
-    def update_filters(self, single_inclusion_filters: Iterable[Text] = (),
-                       multi_inclusion_filters: Iterable[Text] = (),
-                       exclusion_filters: Iterable[Text] = ()) -> NoReturn:
+    def update_keywords(self, single_inclusion_keywords: Iterable[Text] = (),
+                        multi_inclusion_keywords: Iterable[Text] = (),
+                        exclusion_keywords: Iterable[Text] = ()) -> NoReturn:
         """
         Add new keywords to the filters. This will not replace the existing filters, but extend them.
 
-        :param single_inclusion_filters: More single_inclusion_filters
-        :param multi_inclusion_filters: More multi_inclusion_filters
-        :param exclusion_filters: More exclusion_filters
+        :param single_inclusion_keywords: More single_inclusion_keywords
+        :param multi_inclusion_keywords: More multi_inclusion_keywords
+        :param exclusion_keywords: More exclusion_keywords
         """
-        self.single_inclusion_filters.extend(single_inclusion_filters)
-        self.multi_inclusion_filters.extend(multi_inclusion_filters)
-        self.exclusion_filters.extend(exclusion_filters)
+        self.single_inclusion_filter.extend_keywords(single_inclusion_keywords)
+        self.multi_inclusion_filter.extend_keywords(multi_inclusion_keywords)
+        self.exclusion_filter.extend_keywords(exclusion_keywords)
 
-    def set_filters(self, single_inclusion_filters: Iterable[Text] = None,
-                    multi_inclusion_filters: Iterable[Text] = None,
-                    exclusion_filters: Iterable[Text] = None) -> NoReturn:
+    def set_keywords(self, single_inclusion_keywords: Iterable[Text] = None,
+                     multi_inclusion_keywords: Iterable[Text] = None,
+                     exclusion_keywords: Iterable[Text] = None) -> NoReturn:
         """
         Replace the current filters with new ones. Leaving any field empty will keep the current one.
 
-        :param single_inclusion_filters: New single_inclusion_filters
-        :param multi_inclusion_filters: New multi_inclusion_filters
-        :param exclusion_filters: New exclusion_filters
+        :param single_inclusion_keywords: New single_inclusion_keywords
+        :param multi_inclusion_keywords: New multi_inclusion_keywords
+        :param exclusion_keywords: New exclusion_keywords
         """
 
-        if single_inclusion_filters is not None:
-            self.single_inclusion_filters = list(single_inclusion_filters)
-        if multi_inclusion_filters is not None:
-            self.multi_inclusion_filters = list(multi_inclusion_filters)
-        if exclusion_filters is not None:
-            self.exclusion_filters = list(exclusion_filters)
+        if single_inclusion_keywords is not None:
+            self.single_inclusion_filter.set_keywords(single_inclusion_keywords)
+        if multi_inclusion_keywords is not None:
+            self.multi_inclusion_filter.set_keywords(multi_inclusion_keywords)
+        if exclusion_keywords is not None:
+            self.exclusion_filter.set_keywords(exclusion_keywords)
 
-    def delete_filters(self, single_inclusion_filters: Iterable[Text] = (),
-                       multi_inclusion_filters: Iterable[Text] = (),
-                       exclusion_filters: Iterable[Text] = ()) -> NoReturn:
+    def delete_keywords(self, single_inclusion_keywords: Iterable[Text] = (),
+                        multi_inclusion_keywords: Iterable[Text] = (),
+                        exclusion_keywords: Iterable[Text] = ()) -> NoReturn:
         """
         Delete keywords in filters if they exist
 
-        :param single_inclusion_filters: Single_inclusion_filters to delete
-        :param multi_inclusion_filters: Multi_inclusion_filters to delete
-        :param exclusion_filters: Exclusion_filters to delete
+        :param single_inclusion_keywords: Single_inclusion_keywords to delete
+        :param multi_inclusion_keywords: Multi_inclusion_keywords to delete
+        :param exclusion_keywords: Exclusion_keywords to delete
         """
-
-        self._remove_keywords(single_inclusion_filters, self.single_inclusion_filters)
-        self._remove_keywords(multi_inclusion_filters, self.multi_inclusion_filters)
-        self._remove_keywords(exclusion_filters, self.exclusion_filters)
-
-    @staticmethod
-    def _remove_keywords(kw_list: Iterable[Text], filter_list: List[Text]) -> NoReturn:
-        for kw in kw_list:
-            # Using 'while' to handle multiple occurrences of the keyword in the filter list
-            while kw in filter_list:
-                filter_list.remove(kw)
+        self.single_inclusion_filter.delete_keywords(single_inclusion_keywords)
+        self.multi_inclusion_filter.delete_keywords(multi_inclusion_keywords)
+        self.exclusion_filter.delete_keywords(exclusion_keywords)
 
     def _filter(self, input_string: Text, ctx: FilterContext) -> bool:
         """
@@ -95,13 +89,13 @@ class TextFilter:
         :param ctx: A context with metadata pertaining to this filter request.
         """
         ctx = ctx or self.default_context
-        if not self.matched_any_single_inclusion_filters(input_string, ctx):
+        if not self.single_inclusion_filter.filter(input_string, ctx):
             return False
 
-        if not self.matched_all_multi_inclusion_filters(input_string, ctx):
+        if not self.multi_inclusion_filter.filter(input_string, ctx):
             return False
 
-        if self.matched_any_exclusion_filters(input_string, ctx):
+        if self.exclusion_filter.filter(input_string, ctx):
             return False
 
         return True
@@ -113,9 +107,9 @@ class TextFilter:
         :param input_string: The value to run through the filters.
         :param casefold: Should the values be compared without caring about uppercase/lowercase?
         :return: True if
-         - We matched at least one of the single_inclusion_filters
-         - All of the multi_inclusion_filters
-         - None of the exclusion_filters
+         - We matched at least one of the single_inclusion_keywords
+         - All of the multi_inclusion_keywords
+         - None of the exclusion_keywords
         Otherwise False.
         """
         ctx = FilterContext(casefold=casefold)
@@ -149,98 +143,24 @@ class TextFilter:
 
     def _safe_file_filter(self, file_handle: TextIO, ctx: FilterContext) -> bool:
         """
-        A way to run the fliter on a file without loading the whole thing in memory
+        A way to run the filter on a file without loading the whole thing in memory
 
         :param file_handle: A file handle to read safely from
         :param ctx: A context with metadata pertaining to this filter request.
         :return: Did the file go through the filters?
         """
-        matched_any_single_inclusion_filters = False
-        matched_multi_inclusion_filters_set = set()
+        matched_any_single_inclusion_keywords = False
+        matched_multi_inclusion_keywords_set = set()
 
         for line in file_handle:
-            if not matched_any_single_inclusion_filters:
-                matched_any_single_inclusion_filters = self.matched_any_single_inclusion_filters(line, ctx)
+            if not matched_any_single_inclusion_keywords:
+                matched_any_single_inclusion_keywords = self.single_inclusion_filter.filter(line, ctx)
 
-            seen_multi_match_keywords = self._get_all_matching_multi_inclusion_keywords(line, ctx)
-            matched_multi_inclusion_filters_set |= seen_multi_match_keywords
+            seen_multi_match_keywords = self.multi_inclusion_filter.get_all_matching_multi_inclusion_keywords(line, ctx)
+            matched_multi_inclusion_keywords_set |= seen_multi_match_keywords
 
-            if self.matched_any_exclusion_filters(line, ctx):
+            if self.exclusion_filter.filter(line, ctx):
                 return False
 
-        return matched_any_single_inclusion_filters \
-               and matched_multi_inclusion_filters_set == set(self.multi_inclusion_filters)
-
-    def _get_all_matching_multi_inclusion_keywords(self, input_string: Text, ctx: FilterContext) -> Set[Text]:
-        """
-        Returns all keywords from multi_inclusion_filters which are seen in the input string.
-
-        :param input_string: The value to run through the filters.
-        :param ctx: A context with metadata pertaining to this filter request.
-        :return: A set of whitelist_keywords existing in the input_string and multi_inclusion_filters
-        """
-        seen = set()
-        for whitelist_keyword in self.multi_inclusion_filters:
-            if ctx.casefold:
-                whitelist_keyword = whitelist_keyword.casefold()
-                input_string = input_string.casefold()
-            if whitelist_keyword in input_string:
-                seen.add(whitelist_keyword)
-        return seen
-
-    def matched_any_single_inclusion_filters(self, input_string: Text, ctx: FilterContext) -> bool:
-        """
-        Run a single input through the single-inclusion filters.
-
-        :param input_string: The value to run through the filters.
-        :param ctx: A context with metadata pertaining to this filter request.
-        :return: True if any of the single_inclusion_filter keywords was matched, otherwise False
-        """
-        if not self.single_inclusion_filters:
-            return True
-
-        for whitelist_keyword in self.single_inclusion_filters:
-            if ctx.casefold:
-                whitelist_keyword = whitelist_keyword.casefold()
-                input_string = input_string.casefold()
-            if whitelist_keyword in input_string:
-                return True
-        return False
-
-    def matched_all_multi_inclusion_filters(self, input_string: Text, ctx: FilterContext) -> bool:
-        """
-        Run a single input through the multi-inclusion filters.
-
-        :param input_string: The value to run through the filters.
-        :param ctx: A context with metadata pertaining to this filter request.
-        :return: True if all of the multi_inclusion_filter keywords were matched, otherwise False
-        """
-        if not self.multi_inclusion_filters:
-            return True
-
-        for whitelist_keyword in self.multi_inclusion_filters:
-            if ctx.casefold:
-                whitelist_keyword = whitelist_keyword.casefold()
-                input_string = input_string.casefold()
-            if whitelist_keyword not in input_string:
-                return False
-        return True
-
-    def matched_any_exclusion_filters(self, input_string: Text, ctx: FilterContext) -> bool:
-        """
-        Run a single input through the exclusion filters.
-
-        :param input_string: The value to run through the filters.
-        :param ctx: A context with metadata pertaining to this filter request.
-        :return: True if any of the exclusion_filter keywords were matched, otherwise False
-        """
-        if not self.exclusion_filters:
-            return False
-
-        for blacklist_keyword in self.exclusion_filters:
-            if ctx.casefold:
-                blacklist_keyword = blacklist_keyword.casefold()
-                input_string = input_string.casefold()
-            if blacklist_keyword in input_string:
-                return True
-        return False
+        return matched_any_single_inclusion_keywords \
+            and self.multi_inclusion_filter.all_match(matched_multi_inclusion_keywords_set)
