@@ -1,10 +1,10 @@
 from typing import Text, List, Set
 
-from pyfilter.src.base_filter import BaseFilter
-from pyfilter.src.filter_context import FilterContext
+from filters.base_filter import _BaseFilter
+from filter_context import FilterContext
 
 
-class MultiMatchFilter(BaseFilter):
+class _MultiMatchFilter(_BaseFilter):
 
     def __init__(self, keywords: List[Text]):
         super().__init__(keywords)

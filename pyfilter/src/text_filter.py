@@ -1,8 +1,7 @@
 from typing import Text, Iterable, NoReturn, List, TextIO
-
-from pyfilter.src.filter_context import FilterContext
-from pyfilter.src.multi_match_filter import MultiMatchFilter
-from pyfilter.src.single_match_filter import SingleMatchFilter
+from filter_context import FilterContext
+from filters import MultiMatchFilter
+from filters import SingleMatchFilter
 
 
 class TextFilter:
@@ -40,7 +39,7 @@ class TextFilter:
                         multi_inclusion_keywords: Iterable[Text] = (),
                         exclusion_keywords: Iterable[Text] = ()) -> NoReturn:
         """
-        Add new keywords to the filters. This will not replace the existing filters, but extend them.
+        Add new keywords to the filters. This will not replace the existing keywords, but extend them.
 
         :param single_inclusion_keywords: More single_inclusion_keywords
         :param multi_inclusion_keywords: More multi_inclusion_keywords
@@ -54,7 +53,7 @@ class TextFilter:
                      multi_inclusion_keywords: Iterable[Text] = None,
                      exclusion_keywords: Iterable[Text] = None) -> NoReturn:
         """
-        Replace the current filters with new ones. Leaving any field empty will keep the current one.
+        Replace the current filter keywords with new ones. Leaving any field empty will keep the current one.
 
         :param single_inclusion_keywords: New single_inclusion_keywords
         :param multi_inclusion_keywords: New multi_inclusion_keywords
@@ -120,7 +119,7 @@ class TextFilter:
         Run the filter on multiple inputs. For more details see filter.
 
         :param input_list: A list of string inputs
-        :param casefold: Should values be casefolded? (If True, Upper/Lowercase is ignored)
+        :param casefold: Should the values be compared without caring about uppercase/lowercase?
         :return: A list of inputs which passed the filtering process.
         """
         ctx = FilterContext(casefold=casefold)
@@ -133,8 +132,8 @@ class TextFilter:
         :param filename: The name of the file
         :param safe: If this is True, the file will be loaded line by line, instead of all at once.
         Prevents memory overflows and is recommended for larger files.
-        :param casefold: Should values be casefolded? (If True, Upper/Lowercase is ignored)
-        :return: See filter method
+        :param casefold: Should the values be compared without caring about uppercase/lowercase?
+        :return: See _filter method or _safe_file_filter if the safety flag is True.
         """
         ctx = FilterContext(casefold=casefold)
         with open(filename, 'r') as h_file:
@@ -149,12 +148,12 @@ class TextFilter:
         :param ctx: A context with metadata pertaining to this filter request.
         :return: Did the file go through the filters?
         """
-        matched_any_single_inclusion_keywords = False
+        matched_anySingle_inclusion_keywords = False
         matched_multi_inclusion_keywords_set = set()
 
         for line in file_handle:
-            if not matched_any_single_inclusion_keywords:
-                matched_any_single_inclusion_keywords = self.single_inclusion_filter.filter(line, ctx)
+            if not matched_anySingle_inclusion_keywords:
+                matched_anySingle_inclusion_keywords = self.single_inclusion_filter.filter(line, ctx)
 
             seen_multi_match_keywords = self.multi_inclusion_filter.get_all_matching_multi_inclusion_keywords(line, ctx)
             matched_multi_inclusion_keywords_set |= seen_multi_match_keywords
@@ -162,5 +161,5 @@ class TextFilter:
             if self.exclusion_filter.filter(line, ctx):
                 return False
 
-        return matched_any_single_inclusion_keywords \
+        return matched_anySingle_inclusion_keywords \
             and self.multi_inclusion_filter.all_match(matched_multi_inclusion_keywords_set)

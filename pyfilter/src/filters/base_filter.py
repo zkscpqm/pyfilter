@@ -1,14 +1,14 @@
 from typing import Text, List, Iterable, NoReturn
 
-from pyfilter.src.filter_context import FilterContext
+from filter_context import FilterContext
 
 
-class BaseFilter:
+class _BaseFilter:
 
     def __init__(self, keywords: List[Text]):
         self.keywords: List[Text] = keywords
 
-    def filter(self, input_string: Text, ctx: FilterContext) -> bool:
+    def filter(self, input_string: Text, ctx: FilterContext) -> bool:  # pragma: no cover
         """
         Run a input through the filter.
 

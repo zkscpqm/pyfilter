@@ -1,9 +1,8 @@
 from typing import Text, List
+from filters.base_filter import _BaseFilter
 
-from pyfilter.src.base_filter import BaseFilter
 
-
-class SingleMatchFilter(BaseFilter):
+class SingleMatchFilter(_BaseFilter):
 
     def __init__(self, keywords: List[Text]):
         super().__init__(keywords)
