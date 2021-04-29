@@ -13,10 +13,7 @@ class TestMultiMatchFilter(unittest.TestCase, BaseFilterTest):
         self.keywords: List[Text] = ['dog', 'cat']
         self.set_filter(MultiMatchFilter, self.keywords)
 
-    @parameterized.expand([
-        ("casefolded_true", True),
-        ("casefolded_false", False)
-    ])
+    @parameterized.expand([("casefolded_true", True), ("casefolded_false", False)])
     def test_matched_all_multi_inclusion_filters(self, _, ctx_casefold: bool) -> Any:
         ctx = FilterContext(casefold=ctx_casefold)
         cases = [
@@ -28,10 +25,7 @@ class TestMultiMatchFilter(unittest.TestCase, BaseFilterTest):
         for input_string, expected in cases:
             assert self.filter.filter(input_string, ctx) is expected
 
-    @parameterized.expand([
-        ("casefolded_true", True),
-        ("casefolded_false", False)
-    ])
+    @parameterized.expand([("casefolded_true", True), ("casefolded_false", False)])
     def test_get_all_matching_multi_inclusion_keywords(self, _, ctx_casefold: bool) -> Any:
         ctx = FilterContext(casefold=ctx_casefold)
         cases = [

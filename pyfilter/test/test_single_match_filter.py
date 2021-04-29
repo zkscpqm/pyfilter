@@ -1,6 +1,5 @@
 from typing import Any, List, Text
 import unittest
-
 from parameterized import parameterized
 
 from pyfilter.src.filter_context import FilterContext
@@ -14,10 +13,7 @@ class TestSingleMatchFilter(unittest.TestCase, BaseFilterTest):
         self.keywords: List[Text] = ['dog', 'cat']
         self.set_filter(SingleMatchFilter, self.keywords)
 
-    @parameterized.expand([
-        ("casefolded_true", True),
-        ("casefolded_false", False)
-    ])
+    @parameterized.expand([("casefolded_true", True), ("casefolded_false", False)])
     def test_matched_anySingle_inclusion_filters(self, _, ctx_casefold: bool) -> Any:
         ctx = FilterContext(casefold=ctx_casefold)
         cases = [

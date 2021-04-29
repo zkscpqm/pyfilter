@@ -1,5 +1,6 @@
 from copy import copy
 from typing import Type, NoReturn, List, Text, Union
+
 from pyfilter.src.filter_context import FilterContext
 from pyfilter.src.filters import SingleMatchFilter, MultiMatchFilter
 
