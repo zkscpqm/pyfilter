@@ -4,18 +4,18 @@ from filters.base_filter import _BaseFilter
 from filter_context import FilterContext
 
 
-class _MultiMatchFilter(_BaseFilter):
+class _AllMatchFilter(_BaseFilter):
 
     def __init__(self, keywords: List[Text]):
         super().__init__(keywords)
 
     def filter(self, input_string, ctx):
         """
-        Run a single input through the multi-inclusion filters.
+        Run a single input through the all-match filters.
 
         :param input_string: The value to run through the filters.
         :param ctx: A context with metadata pertaining to this filter request.
-        :return: True if all of the MultiInclusionFilter keywords were matched, otherwise False
+        :return: True if all of the AllMatchFilter keywords were matched, otherwise False
         """
         if not self.keywords:
             return True
@@ -28,13 +28,13 @@ class _MultiMatchFilter(_BaseFilter):
                 return False
         return True
 
-    def get_all_matching_multi_inclusion_keywords(self, input_string: Text, ctx: FilterContext) -> Set[Text]:
+    def get_all_matching_keywords(self, input_string: Text, ctx: FilterContext) -> Set[Text]:
         """
-        Returns all keywords from multi_inclusion_keywords which are seen in the input string.
+        Returns all keywords which are seen in the input string.
 
-        :param input_string: The value to run through the filters.
+        :param input_string: The value to run through the filter.
         :param ctx: A context with metadata pertaining to this filter request.
-        :return: A set of whitelist_keywords existing in the input_string and multi_inclusion_keywords
+        :return: A set of whitelist_keywords existing in the input_string and the filter's keywords
         """
         seen = set()
         for whitelist_keyword in self.keywords:
@@ -46,4 +46,10 @@ class _MultiMatchFilter(_BaseFilter):
         return seen
 
     def all_match(self, keywords: Set[Text]) -> bool:
+        """
+        Checks whether an input set matches all keywords
+
+        :param keywords: A set of items to check
+        :return: True if the sets are identical, otherwise False
+        """
         return keywords == set(self.keywords)

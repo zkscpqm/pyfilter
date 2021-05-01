@@ -1,5 +1,6 @@
 from typing import Final
 
+
 class FilterContext:
 
     __slots__ = ['casefold']
@@ -11,4 +12,9 @@ class FilterContext:
     def get_default_context(cls) -> 'FilterContext':
         return FilterContext(
             casefold=True
+        )
+
+    def __eq__(self, other: 'FilterContext') -> bool:
+        return (
+            self.casefold == other.casefold
         )

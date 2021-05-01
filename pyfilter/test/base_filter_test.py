@@ -2,13 +2,13 @@ from copy import copy
 from typing import Type, NoReturn, List, Text, Union
 
 from pyfilter.src.filter_context import FilterContext
-from pyfilter.src.filters import SingleMatchFilter, MultiMatchFilter
+from pyfilter.src.filters import AnyMatchFilter, AllMatchFilter
 
 
 class BaseFilterTest:
 
     def set_filter(self, filter_type: Type, keywords: List[Text]) -> NoReturn:
-        self.filter: Union[SingleMatchFilter, MultiMatchFilter] = filter_type(keywords)
+        self.filter: Union[AnyMatchFilter, AllMatchFilter] = filter_type(keywords)
 
     def test_no_filtering_if_no_keywords(self) -> NoReturn:
         self.filter.set_keywords([])

@@ -3,7 +3,7 @@ import unittest
 from parameterized import parameterized
 
 from pyfilter.src.filter_context import FilterContext
-from pyfilter.src.filters import SingleMatchFilter
+from pyfilter.src.filters import AnyMatchFilter
 from pyfilter.test.base_filter_test import BaseFilterTest
 
 
@@ -11,7 +11,7 @@ class TestSingleMatchFilter(unittest.TestCase, BaseFilterTest):
 
     def setUp(self) -> Any:
         self.keywords: List[Text] = ['dog', 'cat']
-        self.set_filter(SingleMatchFilter, self.keywords)
+        self.set_filter(AnyMatchFilter, self.keywords)
 
     @parameterized.expand([("casefolded_true", True), ("casefolded_false", False)])
     def test_matched_anySingle_inclusion_filters(self, _, ctx_casefold: bool) -> Any:

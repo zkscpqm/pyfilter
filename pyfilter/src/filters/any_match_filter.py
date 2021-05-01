@@ -2,18 +2,18 @@ from typing import Text, List
 from filters.base_filter import _BaseFilter
 
 
-class SingleMatchFilter(_BaseFilter):
+class _AnyMatchFilter(_BaseFilter):
 
     def __init__(self, keywords: List[Text]):
         super().__init__(keywords)
 
     def filter(self, input_string, ctx):
         """
-        Run a single input through the single-inclusion filter.
+        Run a single input through the any-inclusion filter.
 
         :param input_string: The value to run through the filter.
         :param ctx: A context with metadata pertaining to this filter request.
-        :return: True if any of the SingleInclusionFilter keywords was matched, otherwise False
+        :return: True if any of the keywords was matched, otherwise False
         """
         if not self.keywords:
             return True

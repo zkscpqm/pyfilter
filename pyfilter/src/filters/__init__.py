@@ -1,6 +1,6 @@
-from filters.single_match_filter import SingleMatchFilter, _BaseFilter
-from filters.multi_match_filter import _MultiMatchFilter
+from filters.any_match_filter import _AnyMatchFilter, _BaseFilter
+from filters.all_match_filter import _AllMatchFilter
 
 BaseFilter = _BaseFilter
-SingleMatchFilter = SingleMatchFilter
-MultiMatchFilter = _MultiMatchFilter
+AnyMatchFilter = _AnyMatchFilter
+AllMatchFilter = _AllMatchFilter
