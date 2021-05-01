@@ -13,8 +13,8 @@ class TestSingleMatchFilter(unittest.TestCase, BaseFilterTest):
         self.keywords: List[Text] = ['dog', 'cat']
         self.set_filter(AnyMatchFilter, self.keywords)
 
-    @parameterized.expand([("casefolded_true", True), ("casefolded_false", False)])
-    def test_matched_anySingle_inclusion_filters(self, _, ctx_casefold: bool) -> Any:
+    @parameterized.expand([(True,), (False,)])
+    def test_matched_anySingle_inclusion_filters(self, ctx_casefold: bool) -> Any:
         ctx = FilterContext(casefold=ctx_casefold)
         cases = [
             ('some_string_with_dog', True),
