@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package filter_transport;
+
+message SingleTextFilterRequest {
+  string input_string = 1;
+}
+
+message SingleTextFilterResponse {
+  bool passed_filter = 1;
+}
+
+message MultiFilterResponse {
+  repeated string passed_inputs = 1;
+}
+
+service TextFilterService {
+  // Send one text input and receive a boolean response whether it passed the filter or not
+  rpc SingleFilter(SingleTextFilterRequest) returns (SingleTextFilterResponse) {}
+
+  // Send a stream of text inputs and receive an array of the outputs which passed the filter
+  rpc MultiFilter(stream SingleTextFilterRequest) returns (MultiFilterResponse) {}
+
+  // Send a stream of text inputs and receive a stream of pass/fail booleans for each one
+  rpc MultiFilterStream(stream SingleTextFilterRequest) returns (stream SingleTextFilterResponse) {}
+}
