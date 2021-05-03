@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n filter_service/text_filter.proto\x12\x10\x66ilter_transport\"/\n\x17SingleTextFilterRequest\x12\x14\n\x0cinput_string\x18\x01 \x01(\t\"1\n\x18SingleTextFilterResponse\x12\x15\n\rpassed_filter\x18\x01 \x01(\x08\",\n\x13MultiFilterResponse\x12\x15\n\rpassed_inputs\x18\x01 \x03(\t2\xd3\x02\n\x11TextFilterService\x12g\n\x0cSingleFilter\x12).filter_transport.SingleTextFilterRequest\x1a*.filter_transport.SingleTextFilterResponse\"\x00\x12\x63\n\x0bMultiFilter\x12).filter_transport.SingleTextFilterRequest\x1a%.filter_transport.MultiFilterResponse\"\x00(\x01\x12p\n\x11MultiFilterStream\x12).filter_transport.SingleTextFilterRequest\x1a*.filter_transport.SingleTextFilterResponse\"\x00(\x01\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n filter_service/text_filter.proto\x12\x10\x66ilter_transport\"A\n\x17SingleTextFilterRequest\x12\x14\n\x0cinput_string\x18\x01 \x01(\t\x12\x10\n\x08\x63\x61sefold\x18\x02 \x01(\x08\"1\n\x18SingleTextFilterResponse\x12\x15\n\rpassed_filter\x18\x01 \x01(\x08\",\n\x13MultiFilterResponse\x12\x15\n\rpassed_inputs\x18\x01 \x03(\t2\xd3\x02\n\x11TextFilterService\x12g\n\x0cSingleFilter\x12).filter_transport.SingleTextFilterRequest\x1a*.filter_transport.SingleTextFilterResponse\"\x00\x12\x63\n\x0bMultiFilter\x12).filter_transport.SingleTextFilterRequest\x1a%.filter_transport.MultiFilterResponse\"\x00(\x01\x12p\n\x11MultiFilterStream\x12).filter_transport.SingleTextFilterRequest\x1a*.filter_transport.SingleTextFilterResponse\"\x00(\x01\x30\x01\x62\x06proto3'
 )
 
 
@@ -40,6 +40,13 @@ _SINGLETEXTFILTERREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='casefold', full_name='filter_transport.SingleTextFilterRequest.casefold', index=1,
+      number=2, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -53,7 +60,7 @@ _SINGLETEXTFILTERREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=54,
-  serialized_end=101,
+  serialized_end=119,
 )
 
 
@@ -84,8 +91,8 @@ _SINGLETEXTFILTERRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=103,
-  serialized_end=152,
+  serialized_start=121,
+  serialized_end=170,
 )
 
 
@@ -116,8 +123,8 @@ _MULTIFILTERRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=154,
-  serialized_end=198,
+  serialized_start=172,
+  serialized_end=216,
 )
 
 DESCRIPTOR.message_types_by_name['SingleTextFilterRequest'] = _SINGLETEXTFILTERREQUEST
@@ -155,8 +162,8 @@ _TEXTFILTERSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=201,
-  serialized_end=540,
+  serialized_start=219,
+  serialized_end=558,
   methods=[
   _descriptor.MethodDescriptor(
     name='SingleFilter',
