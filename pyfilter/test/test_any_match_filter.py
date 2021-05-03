@@ -7,14 +7,14 @@ from pyfilter.src.filters import AnyMatchFilter
 from pyfilter.test.base_filter_test import BaseFilterTest
 
 
-class TestSingleMatchFilter(unittest.TestCase, BaseFilterTest):
+class TestAnyMatchFilter(unittest.TestCase, BaseFilterTest):
 
     def setUp(self) -> Any:
         self.keywords: List[Text] = ['dog', 'cat']
         self.set_filter(AnyMatchFilter, self.keywords)
 
     @parameterized.expand([(True,), (False,)])
-    def test_matched_anySingle_inclusion_filters(self, ctx_casefold: bool) -> Any:
+    def test_matched_any_inclusion_filters(self, ctx_casefold: bool) -> Any:
         ctx = FilterContext(casefold=ctx_casefold)
         cases = [
             ('some_string_with_dog', True),

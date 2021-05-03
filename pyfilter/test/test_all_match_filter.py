@@ -7,14 +7,14 @@ from pyfilter.src.filters import AllMatchFilter
 from pyfilter.test.base_filter_test import BaseFilterTest
 
 
-class TestMultiMatchFilter(unittest.TestCase, BaseFilterTest):
+class TestAllMatchFilter(unittest.TestCase, BaseFilterTest):
 
     def setUp(self) -> Any:
         self.keywords: List[Text] = ['dog', 'cat']
         self.set_filter(AllMatchFilter, self.keywords)
 
     @parameterized.expand([(True,), (False,)])
-    def test_matched_all_multi_inclusion_filters(self, ctx_casefold: bool) -> Any:
+    def test_matched_all_inclusion_filters(self, ctx_casefold: bool) -> Any:
         ctx = FilterContext(casefold=ctx_casefold)
         cases = [
             ('some_string_with_dog', False),
@@ -26,7 +26,7 @@ class TestMultiMatchFilter(unittest.TestCase, BaseFilterTest):
             assert self.filter.filter(input_string, ctx) is expected
 
     @parameterized.expand([(True,), (False,)])
-    def test_get_all_matching_multi_inclusion_keywords(self, ctx_casefold: bool) -> Any:
+    def test_get_all_matching_inclusion_keywords(self, ctx_casefold: bool) -> Any:
         ctx = FilterContext(casefold=ctx_casefold)
         cases = [
             ('some_string_with_dog', {'dog'}, False),

@@ -11,19 +11,19 @@ from text_filter import TextFilter
 class TestFilter(unittest.TestCase):
 
     def setUp(self) -> Any:
-        self.single_inclusion_keywords: Set[Text] = {'dog', 'cat'}
-        self.multi_inclusion_keywords: Set[Text] = {'plane', 'car'}
+        self.any_inclusion_keywords: Set[Text] = {'dog', 'cat'}
+        self.all_inclusion_keywords: Set[Text] = {'plane', 'car'}
         self.exclusion_keywords: Set[Text] = {'red', 'grassy'}
         self.filter: TextFilter = TextFilter.new_filter(
-            any_inclusion_keywords=self.single_inclusion_keywords,
-            all_inclusion_keywords=self.multi_inclusion_keywords,
+            any_inclusion_keywords=self.any_inclusion_keywords,
+            all_inclusion_keywords=self.all_inclusion_keywords,
             exclusion_keywords=self.exclusion_keywords
         )
 
     def test_init(self) -> NoReturn:
-        self.assertEqual(self.filter.any_inclusion_filter.keywords, list(self.single_inclusion_keywords),
+        self.assertEqual(self.filter.any_inclusion_filter.keywords, list(self.any_inclusion_keywords),
                          'The any_inclusion_keywords are different than the expected LIST of STRINGS of input data')
-        self.assertEqual(self.filter.all_inclusion_filter.keywords, list(self.multi_inclusion_keywords),
+        self.assertEqual(self.filter.all_inclusion_filter.keywords, list(self.all_inclusion_keywords),
                          'The all_inclusion_keywords are different than the expected LIST of STRINGS of input data')
         self.assertEqual(self.filter.exclusion_filter.keywords, list(self.exclusion_keywords),
                          'The exclusion_keywords are different than the expected LIST of STRINGS of input data')
@@ -34,61 +34,61 @@ class TestFilter(unittest.TestCase):
 
     def test_update_keywords(self) -> NoReturn:
 
-        new_single_inclusion_keywords = []
-        new_multi_inclusion_keywords = []
+        new_any_inclusion_keywords = []
+        new_all_inclusion_keywords = []
         new_exclusion_keywords = []
         self.filter.update_keywords(
-            any_inclusion_keywords=new_single_inclusion_keywords,
-            all_inclusion_keywords=new_multi_inclusion_keywords,
+            any_inclusion_keywords=new_any_inclusion_keywords,
+            all_inclusion_keywords=new_all_inclusion_keywords,
             exclusion_keywords=new_exclusion_keywords
         )
         self.assertEqual(self.filter.any_inclusion_filter.keywords,
-                         list(self.single_inclusion_keywords) + list(new_single_inclusion_keywords),
-                         'The any_inclusion_keywords are different than the expected LIST of STRINGS of input data')
+                         list(self.any_inclusion_keywords) + list(new_any_inclusion_keywords),
+                         'Incorrect any_inclusion_keywords after keyword update')
         self.assertEqual(self.filter.all_inclusion_filter.keywords,
-                         list(self.multi_inclusion_keywords) + list(new_multi_inclusion_keywords),
-                         'The any_inclusion_keywords are different than the expected LIST of STRINGS of input data')
+                         list(self.all_inclusion_keywords) + list(new_all_inclusion_keywords),
+                         'Incorrect all_inclusion_keywords after keyword update')
         self.assertEqual(self.filter.exclusion_filter.keywords,
                          list(self.exclusion_keywords) + list(new_exclusion_keywords),
-                         'The any_inclusion_keywords are different than the expected LIST of STRINGS of input data')
+                         'Incorrect exclusion_keywords after keyword update')
 
     @parameterized.expand([(['new_exclusion', 'kw'],),
                            (None,)])
     def test_set_keywords(self, new_exclusion_keywords: Union[Text, None]):
-        new_single_inclusion_keywords = ['new', 'keywords']
-        new_multi_inclusion_keywords = []
+        new_any_inclusion_keywords = ['new', 'keywords']
+        new_all_inclusion_keywords = []
         self.filter.set_keywords(
-            any_inclusion_keywords=new_single_inclusion_keywords,
-            all_inclusion_keywords=new_multi_inclusion_keywords,
+            any_inclusion_keywords=new_any_inclusion_keywords,
+            all_inclusion_keywords=new_all_inclusion_keywords,
             exclusion_keywords=new_exclusion_keywords
         )
         self.assertEqual(self.filter.any_inclusion_filter.keywords,
-                         new_single_inclusion_keywords,
-                         'The any_inclusion_keywords are different than the expected LIST of STRINGS of input data')
+                         new_any_inclusion_keywords,
+                         'Incorrect any_inclusion_keywords after replacing keywords')
         self.assertEqual(self.filter.all_inclusion_filter.keywords,
                          [],
-                         'The any_inclusion_keywords are different than the expected LIST of STRINGS of input data')
+                         'Incorrect all_inclusion_keywords after replacing keywords')
         self.assertEqual(self.filter.exclusion_filter.keywords,
                          new_exclusion_keywords or list(self.exclusion_keywords),
-                         'The any_inclusion_keywords are different than the expected LIST of STRINGS of input data')
+                         'Incorrect exclusion_keywords after replacing keywords')
 
     def test_delete_keywords(self) -> NoReturn:
-        single_inclusion_keywords_to_delete = ['dog']
-        multi_inclusion_keywords_to_delete = ['nonexistent']
+        any_inclusion_keywords_to_delete = ['dog']
+        all_inclusion_keywords_to_delete = ['nonexistent']
 
         self.filter.delete_keywords(
-            any_inclusion_keywords=single_inclusion_keywords_to_delete,
-            all_inclusion_keywords=multi_inclusion_keywords_to_delete,
+            any_inclusion_keywords=any_inclusion_keywords_to_delete,
+            all_inclusion_keywords=all_inclusion_keywords_to_delete,
         )
         self.assertEqual(self.filter.any_inclusion_filter.keywords,
                          ['cat'],
-                         'The any_inclusion_keywords are different than the expected LIST of STRINGS of input data')
+                         'Incorrect any_inclusion_keywords after deleting keywords')
         self.assertEqual(self.filter.all_inclusion_filter.keywords,
-                         list(self.multi_inclusion_keywords),
-                         'The any_inclusion_keywords are different than the expected LIST of STRINGS of input data')
+                         list(self.all_inclusion_keywords),
+                         'Incorrect all_inclusion_keywords after deleting keywords')
         self.assertEqual(self.filter.exclusion_filter.keywords,
                          list(self.exclusion_keywords),
-                         'The any_inclusion_keywords are different than the expected LIST of STRINGS of input data')
+                         'Incorrect exclusion_keywords after deleting keywords')
 
     @parameterized.expand([("Planes and cars don't allow dogs", True, False),
                            ("Dogs and cats but not the other keywords", False, False),

@@ -123,18 +123,18 @@ class TextFilter:
         ctx = FilterContext(casefold=casefold)
         return [input_string for input_string in input_list if self._filter(input_string, ctx)]
 
-    def file_filter(self, filename: Text, safe: bool = True, casefold: bool = True) -> bool:
+    def file_filter(self, file_path: Text, safe: bool = True, casefold: bool = True) -> bool:
         """
         Run the filter on a file.
 
-        :param filename: The name of the file
+        :param file_path: The path to the file to load and run through the filter
         :param safe: If this is True, the file will be loaded line by line, instead of all at once.
          Prevents memory overflows and is recommended for larger files.
         :param casefold: Should the values be compared without caring about uppercase/lowercase?
         :return: See _filter method or _safe_file_filter if the safety flag is True.
         """
         ctx = FilterContext(casefold=casefold)
-        with open(filename, 'r') as h_file:
+        with open(file_path, 'r') as h_file:
             result = self._filter(h_file.read(), ctx) if not safe else self._safe_file_filter(h_file, ctx)
         return result
 
@@ -146,18 +146,18 @@ class TextFilter:
         :param ctx: A context with metadata pertaining to this filter request.
         :return: Did the file go through the filters?
         """
-        matched_any_single_inclusion_keywords = False
+        matched_any_inclusion_keywords = False
         matched_all_inclusion_keywords_set = set()
 
         for line in file_handle:
-            if not matched_any_single_inclusion_keywords:
-                matched_any_single_inclusion_keywords = self.any_inclusion_filter.filter(line, ctx)
+            if not matched_any_inclusion_keywords:
+                matched_any_inclusion_keywords = self.any_inclusion_filter.filter(line, ctx)
 
-            seen_multi_match_keywords = self.all_inclusion_filter.get_all_matching_keywords(line, ctx)
-            matched_all_inclusion_keywords_set |= seen_multi_match_keywords
+            seen_all_match_keywords = self.all_inclusion_filter.get_all_matching_keywords(line, ctx)
+            matched_all_inclusion_keywords_set |= seen_all_match_keywords
 
             if self.exclusion_filter.filter(line, ctx):
                 return False
 
-        return matched_any_single_inclusion_keywords \
+        return matched_any_inclusion_keywords \
             and self.all_inclusion_filter.all_match(matched_all_inclusion_keywords_set)
