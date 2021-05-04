@@ -20,7 +20,7 @@ service TextFilterService {
   rpc SingleFilter(SingleTextFilterRequest) returns (SingleTextFilterResponse) {}
 
   // Send a stream of text inputs and receive an array of the outputs which passed the filter
-  rpc MultiFilter(stream SingleTextFilterRequest, ) returns (MultiFilterResponse) {}
+  rpc MultiFilter(stream SingleTextFilterRequest) returns (MultiFilterResponse) {}
 
   // Send a stream of text inputs and receive a stream of pass/fail booleans for each one
   rpc MultiFilterStream(stream SingleTextFilterRequest) returns (stream SingleTextFilterResponse) {}

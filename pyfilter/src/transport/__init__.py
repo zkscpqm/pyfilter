@@ -1,2 +1,4 @@
-from transport.server_api import start_server_with_service
+from transport.text_filter_client import TextFilterClient
 from transport.text_filter_service import TextFilterService
+from transport.server_api import start_server_with_service
+from transport.client_api import get_new_client

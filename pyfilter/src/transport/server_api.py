@@ -1,3 +1,4 @@
+import threading
 from concurrent.futures import ThreadPoolExecutor
 import grpc
 from transport.proto import add_TextFilterServiceServicer_to_server
@@ -28,5 +29,6 @@ def _start_server(server: grpc.Server, secure: bool, port: int) -> grpc.Server:
     else:
         server.add_insecure_port(f'[::]:{port}')
     server.start()
-    server.wait_for_termination()
+    # server.wait_for_termination()
+    threading.Thread(target=server.wait_for_termination, daemon=True)  # Allows for shell while server is up
     return server
