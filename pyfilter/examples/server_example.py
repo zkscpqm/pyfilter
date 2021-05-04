@@ -1,5 +1,12 @@
+import grpc
+
 from transport import start_server_with_service, TextFilterService
-import threading
+
+
+def _wait_enter(server: grpc.Server):
+    input("Press 'Enter' to exit...")
+    server.stop(grace=None)
+    exit(0)
 
 
 def _start_svr():
@@ -12,12 +19,12 @@ def _start_svr():
         all_inclusion_keywords=required_attributes,
         exclusion_keywords=deal_breakers
     )
-    start_server_with_service(svc, insecure_port=8886)
+    return start_server_with_service(svc, insecure_port=8886)
 
 
 def main():
-    server_thread = threading.Thread(target=_start_svr, daemon=True)
-    server_thread.start()
+    server = _start_svr()
+    _wait_enter(server)
 
 
 if __name__ == '__main__':
