@@ -13,12 +13,16 @@ The main text filter comprises multiple independent filters:
 This filter can be used on strings, lists of strings, or files. Soon; webpages
 
 ### Usage
-*See examples*
+
+The filter can be used as a class or as a standalone gRPC client-server setup.
+
+ - For direct use in a codebase see examples/basic_filtering_example.py
+ - For use as a gRPC server see examples/server_example.py (and the accompanying client at examples/client_example.py)
 
 ### TODO
 
  - Regex support
- - Have a gRPC server which accepts inputs and spits out filtered outputs
  - Add filter capability for things such as "Match red but not reddish"
  - Add exact filtering (maybe regex will fix this?)
  - Support files structured like lists and filter each line individually
+ - Unit and Integration testing of gRPC implementation
