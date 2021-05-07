@@ -17,7 +17,7 @@ class _AllMatchFilter(_BaseFilter):
         :param ctx: A context with metadata pertaining to this filter request.
         :return: True if all of the AllMatchFilter keywords were matched, otherwise False
         """
-        if not self.keywords:
+        if not self.keywords or not self.enabled:
             return True
 
         for whitelist_keyword in self.keywords:
@@ -53,3 +53,7 @@ class _AllMatchFilter(_BaseFilter):
         :return: True if the sets are identical, otherwise False
         """
         return keywords == set(self.keywords)
+
+    @property
+    def __name(self) -> Text:
+        return 'AllMatchFilter'

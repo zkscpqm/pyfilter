@@ -1,14 +1,15 @@
 from typing import Text, Iterable, NoReturn, List, TextIO
+from re import Pattern, compile as regex_compile, RegexFlag
 from filter_context import FilterContext
-from filters import AllMatchFilter
-from filters import AnyMatchFilter
+from filters import AllMatchFilter, RegexMatchFilter, AnyMatchFilter
 
 
 class TextFilter:
 
     def __init__(self, any_inclusion_keywords: List[Text],
                  all_inclusion_keywords: List[Text],
-                 exclusion_keywords: List[Text]):
+                 exclusion_keywords: List[Text],
+                 regex_pattern: Pattern):
         """
         Text filter constructor. Only takes lists. For different iterable types, use the new_filter constructor.
 
@@ -20,19 +21,22 @@ class TextFilter:
         self.any_inclusion_filter: AnyMatchFilter = AnyMatchFilter(any_inclusion_keywords)
         self.all_inclusion_filter: AllMatchFilter = AllMatchFilter(all_inclusion_keywords)
         self.exclusion_filter: AnyMatchFilter = AnyMatchFilter(exclusion_keywords)
+        self.regex_filter: RegexMatchFilter = RegexMatchFilter(regex_pattern)
         self.default_context = FilterContext.get_default_context()
 
     @classmethod
     def new_filter(cls, any_inclusion_keywords: Iterable[Text] = (),
                    all_inclusion_keywords: Iterable[Text] = (),
-                   exclusion_keywords: Iterable[Text] = ()) -> 'TextFilter':
+                   exclusion_keywords: Iterable[Text] = (),
+                   regex_string: Text = None, regex_flag: RegexFlag = None) -> 'TextFilter':
         """
         Alternate constructor taking in any iterable types. For parameter details, see __init__
         """
         return TextFilter(
             any_inclusion_keywords=list(any_inclusion_keywords),
             all_inclusion_keywords=list(all_inclusion_keywords),
-            exclusion_keywords=list(exclusion_keywords)
+            exclusion_keywords=list(exclusion_keywords),
+            regex_pattern=regex_compile(regex_string, regex_flag) if regex_string else None
         )
 
     def update_keywords(self, any_inclusion_keywords: Iterable[Text] = (),
@@ -51,7 +55,8 @@ class TextFilter:
 
     def set_keywords(self, any_inclusion_keywords: Iterable[Text] = None,
                      all_inclusion_keywords: Iterable[Text] = None,
-                     exclusion_keywords: Iterable[Text] = None) -> NoReturn:
+                     exclusion_keywords: Iterable[Text] = None,
+                     regex_string: Text = None, regex_flag: RegexFlag = None) -> NoReturn:
         """
         Replace the current filter keywords with new ones. Leaving any field empty will keep the current one.
 
@@ -66,10 +71,13 @@ class TextFilter:
             self.all_inclusion_filter.set_keywords(all_inclusion_keywords)
         if exclusion_keywords is not None:
             self.exclusion_filter.set_keywords(exclusion_keywords)
+        if regex_string is not None:
+            self.regex_filter.update_pattern(regex_string, regex_flag)
 
     def delete_keywords(self, any_inclusion_keywords: Iterable[Text] = (),
                         all_inclusion_keywords: Iterable[Text] = (),
-                        exclusion_keywords: Iterable[Text] = ()) -> NoReturn:
+                        exclusion_keywords: Iterable[Text] = (),
+                        clear_regex: bool = False) -> NoReturn:
         """
         Delete keywords in filters if they exist
 
@@ -80,6 +88,8 @@ class TextFilter:
         self.any_inclusion_filter.delete_keywords(any_inclusion_keywords)
         self.all_inclusion_filter.delete_keywords(all_inclusion_keywords)
         self.exclusion_filter.delete_keywords(exclusion_keywords)
+        if clear_regex:
+            self.regex_filter.clear()
 
     def _filter(self, input_string: Text, ctx: FilterContext) -> bool:
         """
@@ -95,6 +105,9 @@ class TextFilter:
             return False
 
         if self.exclusion_filter.filter(input_string, ctx):
+            return False
+
+        if not self.regex_filter.filter(input_string, ctx):
             return False
 
         return True
@@ -140,7 +153,8 @@ class TextFilter:
 
     def _safe_file_filter(self, file_handle: TextIO, ctx: FilterContext) -> bool:
         """
-        A way to run the filter on a file without loading the whole thing in memory
+        A way to run the filter on a file without loading the whole thing in memory.
+        Does not support regex
 
         :param file_handle: A file handle to read safe
         :param ctx: A context with metadata pertaining to this filter request.

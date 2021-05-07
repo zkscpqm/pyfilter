@@ -9,13 +9,13 @@ class _AnyMatchFilter(_BaseFilter):
 
     def filter(self, input_string, ctx):
         """
-        Run a single input through the any-inclusion filter.
+        Run a single input through the any-match filter.
 
         :param input_string: The value to run through the filter.
         :param ctx: A context with metadata pertaining to this filter request.
         :return: True if any of the keywords was matched, otherwise False
         """
-        if not self.keywords:
+        if not self.keywords or not self.enabled:
             return True
 
         for keyword in self.keywords:
@@ -25,3 +25,7 @@ class _AnyMatchFilter(_BaseFilter):
             if keyword in input_string:
                 return True
         return False
+
+    @property
+    def __name(self) -> Text:
+        return 'AnyMatchFilter'

@@ -1,4 +1,4 @@
-from typing import Text, List, Iterable, NoReturn
+from typing import Text, List, Iterable, NoReturn, Any, Tuple
 
 from filter_context import FilterContext
 
@@ -7,6 +7,7 @@ class _BaseFilter:
 
     def __init__(self, keywords: List[Text]):
         self.keywords: List[Text] = keywords
+        self.enabled: bool = True
 
     def filter(self, input_string: Text, ctx: FilterContext) -> bool:  # pragma: no cover
         """
@@ -44,3 +45,16 @@ class _BaseFilter:
             # Using 'while' to handle multiple occurrences of the keyword in the filter list
             while keyword in self.keywords:
                 self.keywords.remove(keyword)
+
+    def enable(self) -> NoReturn:
+        self.enabled = True
+
+    def disable(self) -> NoReturn:
+        self.enabled = False
+
+    @property
+    def __name(self) -> Text:
+        return 'BaseFilter'
+
+    def __str__(self):
+        return f'{self.__name}(keywords={self.keywords})'
