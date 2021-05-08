@@ -53,8 +53,11 @@ class _BaseFilter:
         self.enabled = False
 
     @property
-    def __name(self) -> Text:
+    def __name(self) -> Text:  # pragma: no cover
         return 'BaseFilter'
 
-    def __str__(self):
-        return f'{self.__name}(keywords={self.keywords})'
+    def __str__(self):  # pragma: no cover
+        return f'[{"ENABLED" if self.enabled else "DISABLED"}] {self.__name}(keywords={self.keywords})'
+
+    def __repr__(self):  # pragma: no cover
+        return str(self)

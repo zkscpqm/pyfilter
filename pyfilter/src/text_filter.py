@@ -1,5 +1,5 @@
-from typing import Text, Iterable, NoReturn, List, TextIO
-from re import Pattern, compile as regex_compile, RegexFlag
+from typing import Text, Iterable, NoReturn, List, TextIO, Pattern
+from re import compile as regex_compile, RegexFlag
 from filter_context import FilterContext
 from filters import AllMatchFilter, RegexMatchFilter, AnyMatchFilter
 
@@ -16,6 +16,7 @@ class TextFilter:
         :param any_inclusion_keywords: A list of keywords where at least one must be contained in the input
         :param all_inclusion_keywords: A list of keywords where all must be contained in the input
         :param exclusion_keywords: A list of keywords where none should be contained in the input
+        :param regex_pattern: A compiled regex pattern to match the inputs
         """
 
         self.any_inclusion_filter: AnyMatchFilter = AnyMatchFilter(any_inclusion_keywords)
@@ -28,7 +29,7 @@ class TextFilter:
     def new_filter(cls, any_inclusion_keywords: Iterable[Text] = (),
                    all_inclusion_keywords: Iterable[Text] = (),
                    exclusion_keywords: Iterable[Text] = (),
-                   regex_string: Text = None, regex_flag: RegexFlag = None) -> 'TextFilter':
+                   regex_string: Text = None, regex_flag: RegexFlag = 0) -> 'TextFilter':
         """
         Alternate constructor taking in any iterable types. For parameter details, see __init__
         """
@@ -56,13 +57,16 @@ class TextFilter:
     def set_keywords(self, any_inclusion_keywords: Iterable[Text] = None,
                      all_inclusion_keywords: Iterable[Text] = None,
                      exclusion_keywords: Iterable[Text] = None,
-                     regex_string: Text = None, regex_flag: RegexFlag = None) -> NoReturn:
+                     regex_string: Text = None, regex_flag: RegexFlag = 0) -> NoReturn:
         """
         Replace the current filter keywords with new ones. Leaving any field empty will keep the current one.
 
         :param any_inclusion_keywords: New any_inclusion_keywords
         :param all_inclusion_keywords: New all_inclusion_keywords
         :param exclusion_keywords: New exclusion_keywords
+        :param regex_string: The new regex pattern
+        :param regex_flag: The new regex flags (requires a new pattern to recompile new flags)
+
         """
 
         if any_inclusion_keywords is not None:
@@ -84,6 +88,7 @@ class TextFilter:
         :param any_inclusion_keywords: Single_inclusion_keywords to delete
         :param all_inclusion_keywords: Multi_inclusion_keywords to delete
         :param exclusion_keywords: Exclusion_keywords to delete
+        :param clear_regex: Should the regex filter be cleared
         """
         self.any_inclusion_filter.delete_keywords(any_inclusion_keywords)
         self.all_inclusion_filter.delete_keywords(all_inclusion_keywords)
@@ -175,3 +180,13 @@ class TextFilter:
 
         return matched_any_inclusion_keywords \
             and self.all_inclusion_filter.all_match(matched_all_inclusion_keywords_set)
+
+    def __str__(self) -> Text:
+        return f"""
+TextFilter(
+    {self.any_inclusion_filter}
+    {self.all_inclusion_filter}
+    {self.exclusion_filter}
+    {self.regex_filter}
+)
+"""

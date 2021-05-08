@@ -20,7 +20,7 @@ class _RegexMatchFilter(_BaseFilter):
         :param ctx: A context with metadata pertaining to this filter request.
         :return: True if the input string matches the regex
         """
-        if not self.regex:
+        if not self.regex or not self.enabled:
             return True
 
         if ctx.casefold:
@@ -34,10 +34,9 @@ class _RegexMatchFilter(_BaseFilter):
     def clear(self) -> NoReturn:
         self.regex = None
 
-    @property
-    def __str__(self) -> Text:
-        return f'{self.__name}(regex={self.regex})'
+    def __str__(self) -> Text:  # pragma: no cover
+        return f'[{"ENABLED" if self.enabled else "DISABLED"}] {self.__name}(regex={self.regex})'
 
     @property
-    def __name(self) -> Text:
+    def __name(self) -> Text:  # pragma: no cover
         return 'RegexMatchFilter'

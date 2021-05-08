@@ -55,5 +55,5 @@ class _AllMatchFilter(_BaseFilter):
         return keywords == set(self.keywords)
 
     @property
-    def __name(self) -> Text:
+    def __name(self) -> Text:  # pragma: no cover
         return 'AllMatchFilter'

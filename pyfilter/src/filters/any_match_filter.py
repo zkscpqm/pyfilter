@@ -27,5 +27,5 @@ class _AnyMatchFilter(_BaseFilter):
         return False
 
     @property
-    def __name(self) -> Text:
+    def __name(self) -> Text:  # pragma: no cover
         return 'AnyMatchFilter'

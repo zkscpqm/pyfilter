@@ -40,3 +40,19 @@ class BaseFilterTest:
         deletable_keyword = self.filter.keywords[0]
         self.filter.delete_keywords([deletable_keyword])
         assert deletable_keyword not in self.filter.keywords
+
+    def test_enabling(self) -> NoReturn:
+        cases = [
+            'capitalized Cat str',
+            'string without those keywords',
+            'do g',
+            ''
+        ]
+        ctx = FilterContext(casefold=False)
+        self.filter.disable()
+        for input_string in cases:
+            assert self.filter.filter(input_string, ctx) is True
+
+        self.filter.enable()
+        for input_string in cases:
+            assert self.filter.filter(input_string, ctx) is False

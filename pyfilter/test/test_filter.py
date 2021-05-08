@@ -1,9 +1,7 @@
 import unittest
 import os
 from typing import Any, Text, NoReturn, Set, Union
-
 from parameterized import parameterized
-
 from filter_context import FilterContext
 from text_filter import TextFilter
 
@@ -14,10 +12,12 @@ class TestFilter(unittest.TestCase):
         self.any_inclusion_keywords: Set[Text] = {'dog', 'cat'}
         self.all_inclusion_keywords: Set[Text] = {'plane', 'car'}
         self.exclusion_keywords: Set[Text] = {'red', 'grassy'}
+        self.regex_string: Text = '^[A-Za-z]'
         self.filter: TextFilter = TextFilter.new_filter(
             any_inclusion_keywords=self.any_inclusion_keywords,
             all_inclusion_keywords=self.all_inclusion_keywords,
-            exclusion_keywords=self.exclusion_keywords
+            exclusion_keywords=self.exclusion_keywords,
+            regex_string=self.regex_string
         )
 
     def test_init(self) -> NoReturn:
@@ -27,6 +27,8 @@ class TestFilter(unittest.TestCase):
                          'The all_inclusion_keywords are different than the expected LIST of STRINGS of input data')
         self.assertEqual(self.filter.exclusion_filter.keywords, list(self.exclusion_keywords),
                          'The exclusion_keywords are different than the expected LIST of STRINGS of input data')
+        self.assertEqual(self.filter.regex_filter.regex.pattern, self.regex_string,
+                         'The regex pattern is different than expected')
 
         expected_default_context = FilterContext(casefold=True)
         self.assertEqual(self.filter.default_context, expected_default_context,
@@ -57,10 +59,12 @@ class TestFilter(unittest.TestCase):
     def test_set_keywords(self, new_exclusion_keywords: Union[Text, None]):
         new_any_inclusion_keywords = ['new', 'keywords']
         new_all_inclusion_keywords = []
+        new_regex_str = r'[A-Za-z0-9]'
         self.filter.set_keywords(
             any_inclusion_keywords=new_any_inclusion_keywords,
             all_inclusion_keywords=new_all_inclusion_keywords,
-            exclusion_keywords=new_exclusion_keywords
+            exclusion_keywords=new_exclusion_keywords,
+            regex_string=new_regex_str
         )
         self.assertEqual(self.filter.any_inclusion_filter.keywords,
                          new_any_inclusion_keywords,
@@ -71,6 +75,8 @@ class TestFilter(unittest.TestCase):
         self.assertEqual(self.filter.exclusion_filter.keywords,
                          new_exclusion_keywords or list(self.exclusion_keywords),
                          'Incorrect exclusion_keywords after replacing keywords')
+        self.assertEqual(self.filter.regex_filter.regex.pattern, new_regex_str,
+                         'Failed to set new regex pattern')
 
     def test_delete_keywords(self) -> NoReturn:
         any_inclusion_keywords_to_delete = ['dog']
@@ -79,6 +85,7 @@ class TestFilter(unittest.TestCase):
         self.filter.delete_keywords(
             any_inclusion_keywords=any_inclusion_keywords_to_delete,
             all_inclusion_keywords=all_inclusion_keywords_to_delete,
+            clear_regex=True
         )
         self.assertEqual(self.filter.any_inclusion_filter.keywords,
                          ['cat'],
@@ -89,12 +96,15 @@ class TestFilter(unittest.TestCase):
         self.assertEqual(self.filter.exclusion_filter.keywords,
                          list(self.exclusion_keywords),
                          'Incorrect exclusion_keywords after deleting keywords')
+        self.assertEqual(self.filter.regex_filter.regex, None,
+                         'Failed to delete regex pattern')
 
     @parameterized.expand([("Planes and cars don't allow dogs", True, False),
                            ("Dogs and cats but not the other keywords", False, False),
                            ("Well we have a cat in the car but on on the red plane", False, False),
                            ("The plane carries cats and cars", True, True),
-                           ("Just a car and a plane but no pets", False, False)])
+                           ("Just a car and a plane but no pets", False, False),
+                           ('123regex fail filter plane cats cars', False, False)])
     def test_singular_filter(self, input_string: Text,
                              expected_with_casefold: bool, expected_without_casefold: bool):
 
