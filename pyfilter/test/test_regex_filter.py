@@ -15,17 +15,18 @@ class TestRegex(unittest.TestCase):
         self.default_context = FilterContext.get_default_context()
 
     @parameterized.expand([
-            ('my_mail@whatever.com', True),
-            ('invalidema@il.', False),
-            ('weird.but.valid@email.co.uk', True),
-            ('double@@gmail.com', False),
-            ('doubledot@dd..com', False),
-            ('@noname.com', False),
-            ('a@b.cd', True)
-        ])
+        ('my_mail@whatever.com', True),
+        ('invalidema@il.', False),
+        ('weird.but-valid@email.co.uk', True),
+        ('double@@gmail.com', False),
+        ('doubledot@dd..com', False),
+        ('@noname.com', False),
+        ('a@b.cd', True),
+    ])
     def test_matched_regex_filter(self, email: Text, expected: bool):
         for casefold in (True, False):
             ctx = FilterContext(casefold=casefold)
+            print(f'\n{email} - {self.filter.filter(email, ctx)}')
             assert self.filter.filter(email, ctx) is expected
 
     @parameterized.expand([

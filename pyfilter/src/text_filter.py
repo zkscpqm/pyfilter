@@ -1,7 +1,9 @@
-from typing import Text, Iterable, NoReturn, List, TextIO, Pattern
+from typing import Text, Iterable, NoReturn, List, TextIO, Pattern, Dict
 from re import compile as regex_compile, RegexFlag
 from filter_context import FilterContext
 from filters import AllMatchFilter, RegexMatchFilter, AnyMatchFilter
+import requests
+from bs4 import BeautifulSoup
 
 
 class TextFilter:
@@ -180,6 +182,29 @@ class TextFilter:
 
         return matched_any_inclusion_keywords \
             and self.all_inclusion_filter.all_match(matched_all_inclusion_keywords_set)
+
+    def webpage_filter(self, url: Text, casefold: bool = True, headers: Dict = None, params: Dict = None,
+                       bs_parser: Text = "html.parser", line_join_string: Text = ' '):
+        """
+        Takes in a URL and gets a single webpage's contents and runs it through the filter
+
+        :param url: The URL whose contents to pass through the filter.
+        :param casefold: Should the values be compared without caring about uppercase/lowercase?
+        :param headers: Optional headers to send with the request
+        :param params: Optional params to send with the request
+        :param bs_parser: The parser to use with BeautifulSoup.
+         (Note: Install the correct libraries to use their respective parsers)
+        :param line_join_string: How should each line be joined? Default is whitespace.
+        :return: See filter method's return value for more info
+        """
+        resp = requests.get(url, params=params, headers=headers)
+        if resp.status_code >= 300:
+            raise Exception
+        soup = BeautifulSoup(resp.text, features=bs_parser)
+        all_lines = soup.text.split('\n')
+        url_text = line_join_string.join((line.strip() for line in all_lines if line))
+
+        return self.filter(input_string=url_text, casefold=casefold)
 
     def __str__(self) -> Text:
         return f"""
