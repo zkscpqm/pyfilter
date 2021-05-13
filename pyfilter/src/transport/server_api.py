@@ -1,8 +1,8 @@
 import threading
 from concurrent.futures import ThreadPoolExecutor
 import grpc
-from transport.proto import add_TextFilterServiceServicer_to_server
-from transport.text_filter_service import TextFilterService
+from pyfilter.src.transport.proto import add_TextFilterServiceServicer_to_server
+from pyfilter.src.transport.text_filter_service import TextFilterService
 
 
 def start_server_with_service(service: TextFilterService, secure_port: int = None,

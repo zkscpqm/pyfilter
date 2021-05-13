@@ -1,7 +1,6 @@
 from typing import Text, List, Set
-
-from filters.base_filter import _BaseFilter
-from filter_context import FilterContext
+from pyfilter.src.filters import _BaseFilter
+from pyfilter.src.filter_context import FilterContext
 
 
 class _AllMatchFilter(_BaseFilter):

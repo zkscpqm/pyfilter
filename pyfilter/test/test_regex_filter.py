@@ -3,7 +3,7 @@ from re import compile as regex_compile
 from typing import Text
 
 from parameterized import parameterized
-from filters import RegexMatchFilter
+from pyfilter.src.filters import RegexMatchFilter
 from pyfilter import FilterContext
 
 

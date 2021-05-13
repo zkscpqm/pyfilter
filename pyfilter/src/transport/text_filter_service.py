@@ -1,10 +1,10 @@
 from typing import Iterable, Text, Iterator
 
-from transport.proto import (
+from pyfilter.src.transport.proto import (
     TextFilterServiceServicer,
     SingleTextFilterRequest, SingleTextFilterResponse, MultiFilterResponse
 )
-from text_filter import TextFilter
+from pyfilter.src.text_filter import TextFilter
 
 
 class TextFilterService(TextFilterServiceServicer):

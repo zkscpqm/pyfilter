@@ -1,6 +1,5 @@
-from typing import Text, List, Iterable, NoReturn, Any, Tuple
-
-from filter_context import FilterContext
+from typing import Text, List, Iterable, NoReturn
+from pyfilter.src.filter_context import FilterContext
 
 
 class _BaseFilter:

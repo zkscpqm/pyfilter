@@ -2,7 +2,7 @@ import unittest
 from typing import Any, Text, List
 from parameterized import parameterized
 
-from pyfilter.src.filter_context import FilterContext
+from pyfilter import FilterContext
 from pyfilter.src.filters import AllMatchFilter
 from pyfilter.test.base_filter_test import BaseFilterTest
 

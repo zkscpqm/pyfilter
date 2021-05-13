@@ -1,4 +1,4 @@
-from transport import get_new_client
+from pyfilter import get_new_client
 
 
 def _wait_enter():

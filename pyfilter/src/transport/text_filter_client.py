@@ -1,9 +1,8 @@
 from typing import Tuple, Text, Iterator, Iterable, NoReturn, Callable
-
 import grpc
 from grpc import Channel
 
-from transport.proto import (
+from pyfilter.src.transport.proto import (
     TextFilterServiceStub,
     SingleTextFilterRequest,
 )

@@ -1,7 +1,7 @@
+from pyfilter.src.filter_context import FilterContext
 from typing import Text, Iterable, NoReturn, List, TextIO, Pattern, Dict
 from re import compile as regex_compile, RegexFlag
-from filter_context import FilterContext
-from filters import AllMatchFilter, RegexMatchFilter, AnyMatchFilter
+from pyfilter.src.filters import AllMatchFilter, RegexMatchFilter, AnyMatchFilter
 import requests
 from bs4 import BeautifulSoup
 

@@ -2,8 +2,8 @@ import unittest
 import os
 from typing import Any, Text, NoReturn, Set, Union
 from parameterized import parameterized
-from filter_context import FilterContext
-from text_filter import TextFilter
+from pyfilter import FilterContext
+from pyfilter import TextFilter
 
 
 class TestFilter(unittest.TestCase):

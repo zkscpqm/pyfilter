@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from transport.proto.filter_service import text_filter_pb2 as filter__service_dot_text__filter__pb2
+from pyfilter.src.transport.proto.filter_service import text_filter_pb2 as filter__service_dot_text__filter__pb2
 
 
 class TextFilterServiceStub(object):

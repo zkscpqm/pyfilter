@@ -1,4 +1,4 @@
-from transport import TextFilterClient
+from pyfilter.src.transport.text_filter_client import TextFilterClient
 
 
 def get_new_client(secure_port: int = None, insecure_port: int = None, quiet: bool = True):

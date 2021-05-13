@@ -1,5 +1,5 @@
 from typing import Text, NoReturn
-from filters import _BaseFilter
+from pyfilter.src.filters import _BaseFilter
 from re import Pattern, RegexFlag, compile as regex_compile
 
 

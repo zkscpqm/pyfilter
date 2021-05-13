@@ -1,5 +1,5 @@
 from typing import Text, List
-from filters.base_filter import _BaseFilter
+from pyfilter.src.filters import _BaseFilter
 
 
 class _AnyMatchFilter(_BaseFilter):
