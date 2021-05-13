@@ -1,8 +1,7 @@
 # PyFilter
 
-A small, configurable text filtering app
-
-**Note that the pyfilter/src must be set as Source Root!**
+A small, configurable text filtering app. Can either be instantiated in the code directly,
+or used as a Client/Server service utilizing gRPC.
 
 ### Components
 
