@@ -2,6 +2,8 @@
 
 A small, configurable text filtering app
 
+**Note that the pyfilter/src must be set as Source Root!**
+
 ### Components
 
 The main text filter comprises multiple independent filters:
