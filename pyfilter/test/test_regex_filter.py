@@ -26,7 +26,6 @@ class TestRegex(unittest.TestCase):
     def test_matched_regex_filter(self, email: Text, expected: bool):
         for casefold in (True, False):
             ctx = FilterContext(casefold=casefold)
-            print(f'\n{email} - {self.filter.filter(email, ctx)}')
             assert self.filter.filter(email, ctx) is expected
 
     @parameterized.expand([
