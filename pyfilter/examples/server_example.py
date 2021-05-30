@@ -1,5 +1,5 @@
 import grpc
-from pyfilter import start_server_with_service, TextFilterService # TODO: Do
+from pyfilter import start_server_with_service, TextFilterService
 
 
 def _wait_enter(server: grpc.Server):

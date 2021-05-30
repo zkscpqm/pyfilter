@@ -1,16 +1,21 @@
 from typing import Iterable, Text, Iterator
 
+import grpc
+
 from pyfilter.src.transport.proto import (
     TextFilterServiceServicer,
     SingleTextFilterRequest, WebpageFilterRequest, SingleTextFilterResponse, MultiFilterResponse
 )
 from pyfilter.src.text_filter import TextFilter
+from pyfilter.src.transport.web_manager.filter_web_manager_service import TextFilterManagerService
+from pyfilter.src.transport.web_manager.server_api import start_server_with_service
 
 
 class TextFilterService(TextFilterServiceServicer):
 
     def __init__(self, any_inclusion_keywords: Iterable[Text], all_inclusion_keywords: Iterable[Text],
-                 exclusion_keywords: Iterable[Text], quiet: bool = True):
+                 exclusion_keywords: Iterable[Text], quiet: bool = True,
+                 create_web_manager: bool = True):
         """
         GRPC Service implementation for the filter application. This is built by or passed into the server factory.
         For parameter info, see TextFilter
@@ -22,6 +27,12 @@ class TextFilterService(TextFilterServiceServicer):
             exclusion_keywords=exclusion_keywords
         )
         self.quiet = quiet  # TODO: Pass this to the logger instead!
+        if create_web_manager:
+            self._web_manager = self._set_web_manager()
+
+    def _set_web_manager(self) -> grpc.Server:
+        web_manager_service = TextFilterManagerService(self.filter, self.quiet)
+        return start_server_with_service(web_manager_service)
 
     def SingleFilter(self, request: SingleTextFilterRequest, _) -> SingleTextFilterResponse:
         """
@@ -87,3 +98,6 @@ class TextFilterService(TextFilterServiceServicer):
             headers=request.headers,
             params=request.params)
         return SingleTextFilterResponse(passed_filter=passed)
+
+    def __del__(self):
+        self._web_manager.stop(grace=None).wait()

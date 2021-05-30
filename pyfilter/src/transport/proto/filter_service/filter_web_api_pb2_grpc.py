@@ -17,22 +17,27 @@ class TextFilterManagerStub(object):
         self.GetKeywords = channel.unary_unary(
                 '/filter_manager.TextFilterManager/GetKeywords',
                 request_serializer=filter__service_dot_filter__web__api__pb2.GetKeywordsRequest.SerializeToString,
-                response_deserializer=filter__service_dot_filter__web__api__pb2.GetKeywordsResponse.FromString,
+                response_deserializer=filter__service_dot_filter__web__api__pb2.KeywordsResponse.FromString,
                 )
         self.SetKeywords = channel.unary_unary(
                 '/filter_manager.TextFilterManager/SetKeywords',
                 request_serializer=filter__service_dot_filter__web__api__pb2.SetKeywordsRequest.SerializeToString,
-                response_deserializer=filter__service_dot_filter__web__api__pb2.SetKeywordsResponse.FromString,
+                response_deserializer=filter__service_dot_filter__web__api__pb2.KeywordsResponse.FromString,
                 )
         self.UpdateKeywords = channel.unary_unary(
                 '/filter_manager.TextFilterManager/UpdateKeywords',
                 request_serializer=filter__service_dot_filter__web__api__pb2.UpdateKeywordsRequest.SerializeToString,
-                response_deserializer=filter__service_dot_filter__web__api__pb2.UpdateKeywordsResponse.FromString,
+                response_deserializer=filter__service_dot_filter__web__api__pb2.KeywordsResponse.FromString,
                 )
         self.DeleteKeywords = channel.unary_unary(
                 '/filter_manager.TextFilterManager/DeleteKeywords',
                 request_serializer=filter__service_dot_filter__web__api__pb2.DeleteKeywordsRequest.SerializeToString,
-                response_deserializer=filter__service_dot_filter__web__api__pb2.DeleteKeywordsResponse.FromString,
+                response_deserializer=filter__service_dot_filter__web__api__pb2.KeywordsResponse.FromString,
+                )
+        self.ServerInfo = channel.unary_unary(
+                '/filter_manager.TextFilterManager/ServerInfo',
+                request_serializer=filter__service_dot_filter__web__api__pb2.FilterServerInfoRequest.SerializeToString,
+                response_deserializer=filter__service_dot_filter__web__api__pb2.FilterServerInfoResponse.FromString,
                 )
 
 
@@ -67,28 +72,40 @@ class TextFilterManagerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ServerInfo(self, request, context):
+        """Gets detailed info for the filter server
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TextFilterManagerServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetKeywords': grpc.unary_unary_rpc_method_handler(
                     servicer.GetKeywords,
                     request_deserializer=filter__service_dot_filter__web__api__pb2.GetKeywordsRequest.FromString,
-                    response_serializer=filter__service_dot_filter__web__api__pb2.GetKeywordsResponse.SerializeToString,
+                    response_serializer=filter__service_dot_filter__web__api__pb2.KeywordsResponse.SerializeToString,
             ),
             'SetKeywords': grpc.unary_unary_rpc_method_handler(
                     servicer.SetKeywords,
                     request_deserializer=filter__service_dot_filter__web__api__pb2.SetKeywordsRequest.FromString,
-                    response_serializer=filter__service_dot_filter__web__api__pb2.SetKeywordsResponse.SerializeToString,
+                    response_serializer=filter__service_dot_filter__web__api__pb2.KeywordsResponse.SerializeToString,
             ),
             'UpdateKeywords': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateKeywords,
                     request_deserializer=filter__service_dot_filter__web__api__pb2.UpdateKeywordsRequest.FromString,
-                    response_serializer=filter__service_dot_filter__web__api__pb2.UpdateKeywordsResponse.SerializeToString,
+                    response_serializer=filter__service_dot_filter__web__api__pb2.KeywordsResponse.SerializeToString,
             ),
             'DeleteKeywords': grpc.unary_unary_rpc_method_handler(
                     servicer.DeleteKeywords,
                     request_deserializer=filter__service_dot_filter__web__api__pb2.DeleteKeywordsRequest.FromString,
-                    response_serializer=filter__service_dot_filter__web__api__pb2.DeleteKeywordsResponse.SerializeToString,
+                    response_serializer=filter__service_dot_filter__web__api__pb2.KeywordsResponse.SerializeToString,
+            ),
+            'ServerInfo': grpc.unary_unary_rpc_method_handler(
+                    servicer.ServerInfo,
+                    request_deserializer=filter__service_dot_filter__web__api__pb2.FilterServerInfoRequest.FromString,
+                    response_serializer=filter__service_dot_filter__web__api__pb2.FilterServerInfoResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -113,7 +130,7 @@ class TextFilterManager(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/filter_manager.TextFilterManager/GetKeywords',
             filter__service_dot_filter__web__api__pb2.GetKeywordsRequest.SerializeToString,
-            filter__service_dot_filter__web__api__pb2.GetKeywordsResponse.FromString,
+            filter__service_dot_filter__web__api__pb2.KeywordsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -130,7 +147,7 @@ class TextFilterManager(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/filter_manager.TextFilterManager/SetKeywords',
             filter__service_dot_filter__web__api__pb2.SetKeywordsRequest.SerializeToString,
-            filter__service_dot_filter__web__api__pb2.SetKeywordsResponse.FromString,
+            filter__service_dot_filter__web__api__pb2.KeywordsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -147,7 +164,7 @@ class TextFilterManager(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/filter_manager.TextFilterManager/UpdateKeywords',
             filter__service_dot_filter__web__api__pb2.UpdateKeywordsRequest.SerializeToString,
-            filter__service_dot_filter__web__api__pb2.UpdateKeywordsResponse.FromString,
+            filter__service_dot_filter__web__api__pb2.KeywordsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -164,6 +181,23 @@ class TextFilterManager(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/filter_manager.TextFilterManager/DeleteKeywords',
             filter__service_dot_filter__web__api__pb2.DeleteKeywordsRequest.SerializeToString,
-            filter__service_dot_filter__web__api__pb2.DeleteKeywordsResponse.FromString,
+            filter__service_dot_filter__web__api__pb2.KeywordsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ServerInfo(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/filter_manager.TextFilterManager/ServerInfo',
+            filter__service_dot_filter__web__api__pb2.FilterServerInfoRequest.SerializeToString,
+            filter__service_dot_filter__web__api__pb2.FilterServerInfoResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

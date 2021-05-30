@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n#filter_service/filter_web_api.proto\x12\x0e\x66ilter_manager\"R\n\x08Keywords\x12\x14\n\x0c\x61ny_keywords\x18\x01 \x03(\t\x12\x14\n\x0c\x61ll_keywords\x18\x02 \x03(\t\x12\x1a\n\x12\x65xclusion_keywords\x18\x03 \x03(\t\"\x14\n\x12GetKeywordsRequest\"W\n\x13GetKeywordsResponse\x12*\n\x08keywords\x18\x01 \x01(\x0b\x32\x18.filter_manager.Keywords\x12\x14\n\x0cregex_string\x18\x04 \x01(\t\"C\n\x15UpdateKeywordsRequest\x12*\n\x08keywords\x18\x01 \x01(\x0b\x32\x18.filter_manager.Keywords\"D\n\x16UpdateKeywordsResponse\x12*\n\x08keywords\x18\x01 \x01(\x0b\x32\x18.filter_manager.Keywords\"l\n\x12SetKeywordsRequest\x12*\n\x08keywords\x18\x01 \x01(\x0b\x32\x18.filter_manager.Keywords\x12\x19\n\x0cregex_string\x18\x04 \x01(\tH\x00\x88\x01\x01\x42\x0f\n\r_regex_string\"W\n\x13SetKeywordsResponse\x12*\n\x08keywords\x18\x01 \x01(\x0b\x32\x18.filter_manager.Keywords\x12\x14\n\x0cregex_string\x18\x04 \x01(\t\"m\n\x15\x44\x65leteKeywordsRequest\x12*\n\x08keywords\x18\x01 \x01(\x0b\x32\x18.filter_manager.Keywords\x12\x18\n\x0b\x63lear_regex\x18\x04 \x01(\x08H\x00\x88\x01\x01\x42\x0e\n\x0c_clear_regex\"Z\n\x16\x44\x65leteKeywordsResponse\x12*\n\x08keywords\x18\x01 \x01(\x0b\x32\x18.filter_manager.Keywords\x12\x14\n\x0cregex_string\x18\x04 \x01(\t2\x8d\x03\n\x11TextFilterManager\x12X\n\x0bGetKeywords\x12\".filter_manager.GetKeywordsRequest\x1a#.filter_manager.GetKeywordsResponse\"\x00\x12X\n\x0bSetKeywords\x12\".filter_manager.SetKeywordsRequest\x1a#.filter_manager.SetKeywordsResponse\"\x00\x12\x61\n\x0eUpdateKeywords\x12%.filter_manager.UpdateKeywordsRequest\x1a&.filter_manager.UpdateKeywordsResponse\"\x00\x12\x61\n\x0e\x44\x65leteKeywords\x12%.filter_manager.DeleteKeywordsRequest\x1a&.filter_manager.DeleteKeywordsResponse\"\x00\x62\x06proto3'
+  serialized_pb=b'\n#filter_service/filter_web_api.proto\x12\x0e\x66ilter_manager\"R\n\x08Keywords\x12\x14\n\x0c\x61ny_keywords\x18\x01 \x03(\t\x12\x14\n\x0c\x61ll_keywords\x18\x02 \x03(\t\x12\x1a\n\x12\x65xclusion_keywords\x18\x03 \x03(\t\"\x19\n\x17\x46ilterServerInfoRequest\"b\n\x18\x46ilterServerInfoResponse\x12\x12\n\nserver_url\x18\x01 \x01(\t\x12\x13\n\x0bserver_port\x18\x02 \x01(\r\x12\x1d\n\x15server_uptime_seconds\x18\x03 \x01(\x04\"\x14\n\x12GetKeywordsRequest\"C\n\x15UpdateKeywordsRequest\x12*\n\x08keywords\x18\x01 \x01(\x0b\x32\x18.filter_manager.Keywords\"l\n\x12SetKeywordsRequest\x12*\n\x08keywords\x18\x01 \x01(\x0b\x32\x18.filter_manager.Keywords\x12\x19\n\x0cregex_string\x18\x02 \x01(\tH\x00\x88\x01\x01\x42\x0f\n\r_regex_string\"m\n\x15\x44\x65leteKeywordsRequest\x12*\n\x08keywords\x18\x01 \x01(\x0b\x32\x18.filter_manager.Keywords\x12\x18\n\x0b\x63lear_regex\x18\x02 \x01(\x08H\x00\x88\x01\x01\x42\x0e\n\x0c_clear_regex\"T\n\x10KeywordsResponse\x12*\n\x08keywords\x18\x01 \x01(\x0b\x32\x18.filter_manager.Keywords\x12\x14\n\x0cregex_string\x18\x02 \x01(\t2\xde\x03\n\x11TextFilterManager\x12U\n\x0bGetKeywords\x12\".filter_manager.GetKeywordsRequest\x1a .filter_manager.KeywordsResponse\"\x00\x12U\n\x0bSetKeywords\x12\".filter_manager.SetKeywordsRequest\x1a .filter_manager.KeywordsResponse\"\x00\x12[\n\x0eUpdateKeywords\x12%.filter_manager.UpdateKeywordsRequest\x1a .filter_manager.KeywordsResponse\"\x00\x12[\n\x0e\x44\x65leteKeywords\x12%.filter_manager.DeleteKeywordsRequest\x1a .filter_manager.KeywordsResponse\"\x00\x12\x61\n\nServerInfo\x12\'.filter_manager.FilterServerInfoRequest\x1a(.filter_manager.FilterServerInfoResponse\"\x00\x62\x06proto3'
 )
 
 
@@ -71,6 +71,77 @@ _KEYWORDS = _descriptor.Descriptor(
 )
 
 
+_FILTERSERVERINFOREQUEST = _descriptor.Descriptor(
+  name='FilterServerInfoRequest',
+  full_name='filter_manager.FilterServerInfoRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=139,
+  serialized_end=164,
+)
+
+
+_FILTERSERVERINFORESPONSE = _descriptor.Descriptor(
+  name='FilterServerInfoResponse',
+  full_name='filter_manager.FilterServerInfoResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='server_url', full_name='filter_manager.FilterServerInfoResponse.server_url', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='server_port', full_name='filter_manager.FilterServerInfoResponse.server_port', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='server_uptime_seconds', full_name='filter_manager.FilterServerInfoResponse.server_uptime_seconds', index=2,
+      number=3, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=166,
+  serialized_end=264,
+)
+
+
 _GETKEYWORDSREQUEST = _descriptor.Descriptor(
   name='GetKeywordsRequest',
   full_name='filter_manager.GetKeywordsRequest',
@@ -91,47 +162,8 @@ _GETKEYWORDSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=139,
-  serialized_end=159,
-)
-
-
-_GETKEYWORDSRESPONSE = _descriptor.Descriptor(
-  name='GetKeywordsResponse',
-  full_name='filter_manager.GetKeywordsResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='keywords', full_name='filter_manager.GetKeywordsResponse.keywords', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='regex_string', full_name='filter_manager.GetKeywordsResponse.regex_string', index=1,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=161,
-  serialized_end=248,
+  serialized_start=266,
+  serialized_end=286,
 )
 
 
@@ -162,40 +194,8 @@ _UPDATEKEYWORDSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=250,
-  serialized_end=317,
-)
-
-
-_UPDATEKEYWORDSRESPONSE = _descriptor.Descriptor(
-  name='UpdateKeywordsResponse',
-  full_name='filter_manager.UpdateKeywordsResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='keywords', full_name='filter_manager.UpdateKeywordsResponse.keywords', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=319,
-  serialized_end=387,
+  serialized_start=288,
+  serialized_end=355,
 )
 
 
@@ -216,7 +216,7 @@ _SETKEYWORDSREQUEST = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='regex_string', full_name='filter_manager.SetKeywordsRequest.regex_string', index=1,
-      number=4, type=9, cpp_type=9, label=1,
+      number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -238,47 +238,8 @@ _SETKEYWORDSREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=389,
-  serialized_end=497,
-)
-
-
-_SETKEYWORDSRESPONSE = _descriptor.Descriptor(
-  name='SetKeywordsResponse',
-  full_name='filter_manager.SetKeywordsResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='keywords', full_name='filter_manager.SetKeywordsResponse.keywords', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='regex_string', full_name='filter_manager.SetKeywordsResponse.regex_string', index=1,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=499,
-  serialized_end=586,
+  serialized_start=357,
+  serialized_end=465,
 )
 
 
@@ -299,7 +260,7 @@ _DELETEKEYWORDSREQUEST = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='clear_regex', full_name='filter_manager.DeleteKeywordsRequest.clear_regex', index=1,
-      number=4, type=8, cpp_type=7, label=1,
+      number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -321,29 +282,29 @@ _DELETEKEYWORDSREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=588,
-  serialized_end=697,
+  serialized_start=467,
+  serialized_end=576,
 )
 
 
-_DELETEKEYWORDSRESPONSE = _descriptor.Descriptor(
-  name='DeleteKeywordsResponse',
-  full_name='filter_manager.DeleteKeywordsResponse',
+_KEYWORDSRESPONSE = _descriptor.Descriptor(
+  name='KeywordsResponse',
+  full_name='filter_manager.KeywordsResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='keywords', full_name='filter_manager.DeleteKeywordsResponse.keywords', index=0,
+      name='keywords', full_name='filter_manager.KeywordsResponse.keywords', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='regex_string', full_name='filter_manager.DeleteKeywordsResponse.regex_string', index=1,
-      number=4, type=9, cpp_type=9, label=1,
+      name='regex_string', full_name='filter_manager.KeywordsResponse.regex_string', index=1,
+      number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -360,32 +321,28 @@ _DELETEKEYWORDSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=699,
-  serialized_end=789,
+  serialized_start=578,
+  serialized_end=662,
 )
 
-_GETKEYWORDSRESPONSE.fields_by_name['keywords'].message_type = _KEYWORDS
 _UPDATEKEYWORDSREQUEST.fields_by_name['keywords'].message_type = _KEYWORDS
-_UPDATEKEYWORDSRESPONSE.fields_by_name['keywords'].message_type = _KEYWORDS
 _SETKEYWORDSREQUEST.fields_by_name['keywords'].message_type = _KEYWORDS
 _SETKEYWORDSREQUEST.oneofs_by_name['_regex_string'].fields.append(
   _SETKEYWORDSREQUEST.fields_by_name['regex_string'])
 _SETKEYWORDSREQUEST.fields_by_name['regex_string'].containing_oneof = _SETKEYWORDSREQUEST.oneofs_by_name['_regex_string']
-_SETKEYWORDSRESPONSE.fields_by_name['keywords'].message_type = _KEYWORDS
 _DELETEKEYWORDSREQUEST.fields_by_name['keywords'].message_type = _KEYWORDS
 _DELETEKEYWORDSREQUEST.oneofs_by_name['_clear_regex'].fields.append(
   _DELETEKEYWORDSREQUEST.fields_by_name['clear_regex'])
 _DELETEKEYWORDSREQUEST.fields_by_name['clear_regex'].containing_oneof = _DELETEKEYWORDSREQUEST.oneofs_by_name['_clear_regex']
-_DELETEKEYWORDSRESPONSE.fields_by_name['keywords'].message_type = _KEYWORDS
+_KEYWORDSRESPONSE.fields_by_name['keywords'].message_type = _KEYWORDS
 DESCRIPTOR.message_types_by_name['Keywords'] = _KEYWORDS
+DESCRIPTOR.message_types_by_name['FilterServerInfoRequest'] = _FILTERSERVERINFOREQUEST
+DESCRIPTOR.message_types_by_name['FilterServerInfoResponse'] = _FILTERSERVERINFORESPONSE
 DESCRIPTOR.message_types_by_name['GetKeywordsRequest'] = _GETKEYWORDSREQUEST
-DESCRIPTOR.message_types_by_name['GetKeywordsResponse'] = _GETKEYWORDSRESPONSE
 DESCRIPTOR.message_types_by_name['UpdateKeywordsRequest'] = _UPDATEKEYWORDSREQUEST
-DESCRIPTOR.message_types_by_name['UpdateKeywordsResponse'] = _UPDATEKEYWORDSRESPONSE
 DESCRIPTOR.message_types_by_name['SetKeywordsRequest'] = _SETKEYWORDSREQUEST
-DESCRIPTOR.message_types_by_name['SetKeywordsResponse'] = _SETKEYWORDSRESPONSE
 DESCRIPTOR.message_types_by_name['DeleteKeywordsRequest'] = _DELETEKEYWORDSREQUEST
-DESCRIPTOR.message_types_by_name['DeleteKeywordsResponse'] = _DELETEKEYWORDSRESPONSE
+DESCRIPTOR.message_types_by_name['KeywordsResponse'] = _KEYWORDSRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Keywords = _reflection.GeneratedProtocolMessageType('Keywords', (_message.Message,), {
@@ -395,19 +352,26 @@ Keywords = _reflection.GeneratedProtocolMessageType('Keywords', (_message.Messag
   })
 _sym_db.RegisterMessage(Keywords)
 
+FilterServerInfoRequest = _reflection.GeneratedProtocolMessageType('FilterServerInfoRequest', (_message.Message,), {
+  'DESCRIPTOR' : _FILTERSERVERINFOREQUEST,
+  '__module__' : 'filter_service.filter_web_api_pb2'
+  # @@protoc_insertion_point(class_scope:filter_manager.FilterServerInfoRequest)
+  })
+_sym_db.RegisterMessage(FilterServerInfoRequest)
+
+FilterServerInfoResponse = _reflection.GeneratedProtocolMessageType('FilterServerInfoResponse', (_message.Message,), {
+  'DESCRIPTOR' : _FILTERSERVERINFORESPONSE,
+  '__module__' : 'filter_service.filter_web_api_pb2'
+  # @@protoc_insertion_point(class_scope:filter_manager.FilterServerInfoResponse)
+  })
+_sym_db.RegisterMessage(FilterServerInfoResponse)
+
 GetKeywordsRequest = _reflection.GeneratedProtocolMessageType('GetKeywordsRequest', (_message.Message,), {
   'DESCRIPTOR' : _GETKEYWORDSREQUEST,
   '__module__' : 'filter_service.filter_web_api_pb2'
   # @@protoc_insertion_point(class_scope:filter_manager.GetKeywordsRequest)
   })
 _sym_db.RegisterMessage(GetKeywordsRequest)
-
-GetKeywordsResponse = _reflection.GeneratedProtocolMessageType('GetKeywordsResponse', (_message.Message,), {
-  'DESCRIPTOR' : _GETKEYWORDSRESPONSE,
-  '__module__' : 'filter_service.filter_web_api_pb2'
-  # @@protoc_insertion_point(class_scope:filter_manager.GetKeywordsResponse)
-  })
-_sym_db.RegisterMessage(GetKeywordsResponse)
 
 UpdateKeywordsRequest = _reflection.GeneratedProtocolMessageType('UpdateKeywordsRequest', (_message.Message,), {
   'DESCRIPTOR' : _UPDATEKEYWORDSREQUEST,
@@ -416,26 +380,12 @@ UpdateKeywordsRequest = _reflection.GeneratedProtocolMessageType('UpdateKeywords
   })
 _sym_db.RegisterMessage(UpdateKeywordsRequest)
 
-UpdateKeywordsResponse = _reflection.GeneratedProtocolMessageType('UpdateKeywordsResponse', (_message.Message,), {
-  'DESCRIPTOR' : _UPDATEKEYWORDSRESPONSE,
-  '__module__' : 'filter_service.filter_web_api_pb2'
-  # @@protoc_insertion_point(class_scope:filter_manager.UpdateKeywordsResponse)
-  })
-_sym_db.RegisterMessage(UpdateKeywordsResponse)
-
 SetKeywordsRequest = _reflection.GeneratedProtocolMessageType('SetKeywordsRequest', (_message.Message,), {
   'DESCRIPTOR' : _SETKEYWORDSREQUEST,
   '__module__' : 'filter_service.filter_web_api_pb2'
   # @@protoc_insertion_point(class_scope:filter_manager.SetKeywordsRequest)
   })
 _sym_db.RegisterMessage(SetKeywordsRequest)
-
-SetKeywordsResponse = _reflection.GeneratedProtocolMessageType('SetKeywordsResponse', (_message.Message,), {
-  'DESCRIPTOR' : _SETKEYWORDSRESPONSE,
-  '__module__' : 'filter_service.filter_web_api_pb2'
-  # @@protoc_insertion_point(class_scope:filter_manager.SetKeywordsResponse)
-  })
-_sym_db.RegisterMessage(SetKeywordsResponse)
 
 DeleteKeywordsRequest = _reflection.GeneratedProtocolMessageType('DeleteKeywordsRequest', (_message.Message,), {
   'DESCRIPTOR' : _DELETEKEYWORDSREQUEST,
@@ -444,12 +394,12 @@ DeleteKeywordsRequest = _reflection.GeneratedProtocolMessageType('DeleteKeywords
   })
 _sym_db.RegisterMessage(DeleteKeywordsRequest)
 
-DeleteKeywordsResponse = _reflection.GeneratedProtocolMessageType('DeleteKeywordsResponse', (_message.Message,), {
-  'DESCRIPTOR' : _DELETEKEYWORDSRESPONSE,
+KeywordsResponse = _reflection.GeneratedProtocolMessageType('KeywordsResponse', (_message.Message,), {
+  'DESCRIPTOR' : _KEYWORDSRESPONSE,
   '__module__' : 'filter_service.filter_web_api_pb2'
-  # @@protoc_insertion_point(class_scope:filter_manager.DeleteKeywordsResponse)
+  # @@protoc_insertion_point(class_scope:filter_manager.KeywordsResponse)
   })
-_sym_db.RegisterMessage(DeleteKeywordsResponse)
+_sym_db.RegisterMessage(KeywordsResponse)
 
 
 
@@ -460,8 +410,8 @@ _TEXTFILTERMANAGER = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=792,
-  serialized_end=1189,
+  serialized_start=665,
+  serialized_end=1143,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetKeywords',
@@ -469,7 +419,7 @@ _TEXTFILTERMANAGER = _descriptor.ServiceDescriptor(
     index=0,
     containing_service=None,
     input_type=_GETKEYWORDSREQUEST,
-    output_type=_GETKEYWORDSRESPONSE,
+    output_type=_KEYWORDSRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
@@ -479,7 +429,7 @@ _TEXTFILTERMANAGER = _descriptor.ServiceDescriptor(
     index=1,
     containing_service=None,
     input_type=_SETKEYWORDSREQUEST,
-    output_type=_SETKEYWORDSRESPONSE,
+    output_type=_KEYWORDSRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
@@ -489,7 +439,7 @@ _TEXTFILTERMANAGER = _descriptor.ServiceDescriptor(
     index=2,
     containing_service=None,
     input_type=_UPDATEKEYWORDSREQUEST,
-    output_type=_UPDATEKEYWORDSRESPONSE,
+    output_type=_KEYWORDSRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
@@ -499,7 +449,17 @@ _TEXTFILTERMANAGER = _descriptor.ServiceDescriptor(
     index=3,
     containing_service=None,
     input_type=_DELETEKEYWORDSREQUEST,
-    output_type=_DELETEKEYWORDSRESPONSE,
+    output_type=_KEYWORDSRESPONSE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='ServerInfo',
+    full_name='filter_manager.TextFilterManager.ServerInfo',
+    index=4,
+    containing_service=None,
+    input_type=_FILTERSERVERINFOREQUEST,
+    output_type=_FILTERSERVERINFORESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
