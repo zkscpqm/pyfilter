@@ -2,7 +2,7 @@ from typing import Iterable, Text, Iterator
 
 from pyfilter.src.transport.proto import (
     TextFilterServiceServicer,
-    SingleTextFilterRequest, SingleTextFilterResponse, MultiFilterResponse
+    SingleTextFilterRequest, WebpageFilterRequest, SingleTextFilterResponse, MultiFilterResponse
 )
 from pyfilter.src.text_filter import TextFilter
 
@@ -70,3 +70,20 @@ class TextFilterService(TextFilterServiceServicer):
                 print(f'Processing filter request: input="{filter_req.input_string}", casefold:{filter_req.casefold}')
             passed = self.filter.filter(input_string=filter_req.input_string, casefold=filter_req.casefold)
             yield SingleTextFilterResponse(passed_filter=passed)
+
+    def WebpageFilter(self, request: WebpageFilterRequest, _) -> SingleTextFilterResponse:
+        """
+        Unary->Unary API for a single filtering request.
+
+        :param request: A protobuf-defined SingleTextFilterRequest containing a string to pass to the filter.
+        :param _: Generic context space required by gRPC. Can ignore
+        :return: A protobuf-defined SingleTextFilterResponse containing whether the input string passed the filter
+        """
+        if not self.quiet:
+            print(f'Received web filter request: url="{request.url}", casefold:{request.casefold}')
+        passed = self.filter.webpage_filter(
+            url=request.url,
+            casefold=request.casefold,
+            headers=request.headers,
+            params=request.params)
+        return SingleTextFilterResponse(passed_filter=passed)

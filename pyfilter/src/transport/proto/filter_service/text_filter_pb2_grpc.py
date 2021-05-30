@@ -29,6 +29,11 @@ class TextFilterServiceStub(object):
                 request_serializer=filter__service_dot_text__filter__pb2.SingleTextFilterRequest.SerializeToString,
                 response_deserializer=filter__service_dot_text__filter__pb2.SingleTextFilterResponse.FromString,
                 )
+        self.WebpageFilter = channel.unary_unary(
+                '/filter_transport.TextFilterService/WebpageFilter',
+                request_serializer=filter__service_dot_text__filter__pb2.WebpageFilterRequest.SerializeToString,
+                response_deserializer=filter__service_dot_text__filter__pb2.SingleTextFilterResponse.FromString,
+                )
 
 
 class TextFilterServiceServicer(object):
@@ -55,6 +60,13 @@ class TextFilterServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def WebpageFilter(self, request, context):
+        """Invoke the web filter method and return whether the webpage passes the filter
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TextFilterServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -71,6 +83,11 @@ def add_TextFilterServiceServicer_to_server(servicer, server):
             'MultiFilterStream': grpc.stream_stream_rpc_method_handler(
                     servicer.MultiFilterStream,
                     request_deserializer=filter__service_dot_text__filter__pb2.SingleTextFilterRequest.FromString,
+                    response_serializer=filter__service_dot_text__filter__pb2.SingleTextFilterResponse.SerializeToString,
+            ),
+            'WebpageFilter': grpc.unary_unary_rpc_method_handler(
+                    servicer.WebpageFilter,
+                    request_deserializer=filter__service_dot_text__filter__pb2.WebpageFilterRequest.FromString,
                     response_serializer=filter__service_dot_text__filter__pb2.SingleTextFilterResponse.SerializeToString,
             ),
     }
@@ -130,6 +147,23 @@ class TextFilterService(object):
             metadata=None):
         return grpc.experimental.stream_stream(request_iterator, target, '/filter_transport.TextFilterService/MultiFilterStream',
             filter__service_dot_text__filter__pb2.SingleTextFilterRequest.SerializeToString,
+            filter__service_dot_text__filter__pb2.SingleTextFilterResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def WebpageFilter(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/filter_transport.TextFilterService/WebpageFilter',
+            filter__service_dot_text__filter__pb2.WebpageFilterRequest.SerializeToString,
             filter__service_dot_text__filter__pb2.SingleTextFilterResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

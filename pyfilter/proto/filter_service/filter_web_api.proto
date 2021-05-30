@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package filter_manager;
+
+message Keywords {
+  repeated string any_keywords = 1;
+  repeated string all_keywords = 2;
+  repeated string exclusion_keywords = 3;
+}
+
+message GetKeywordsRequest {}
+message GetKeywordsResponse {
+  Keywords keywords = 1;
+  string regex_string = 4;
+}
+
+message UpdateKeywordsRequest {
+  Keywords keywords = 1;
+}
+
+message UpdateKeywordsResponse {
+  Keywords keywords = 1;
+}
+
+message SetKeywordsRequest {
+  Keywords keywords = 1;
+  optional string regex_string = 4;
+}
+
+message SetKeywordsResponse {
+  Keywords keywords = 1;
+  string regex_string = 4;
+}
+
+message DeleteKeywordsRequest {
+  Keywords keywords = 1;
+  optional bool clear_regex = 4;
+}
+
+message DeleteKeywordsResponse {
+  Keywords keywords = 1;
+  string regex_string = 4;
+}
+
+service TextFilterManager {
+  // Get a mapping of the keywords currently set on the filter
+  rpc GetKeywords(GetKeywordsRequest) returns (GetKeywordsResponse) {}
+
+  // Set new keywords on the filter and return the new mappings
+  rpc SetKeywords(SetKeywordsRequest) returns (SetKeywordsResponse) {}
+
+  // Update the list with new keywords and returns the updated mappings
+  rpc UpdateKeywords(UpdateKeywordsRequest) returns (UpdateKeywordsResponse) {}
+
+  // Deletes specified keywords and returns the updated mappings
+  rpc DeleteKeywords(DeleteKeywordsRequest) returns (DeleteKeywordsResponse) {}
+}
