@@ -1,7 +1,6 @@
 from typing import Tuple, Text, Iterator, Iterable, NoReturn, Callable
 import grpc
 from grpc import Channel
-
 from pyfilter.src.transport.proto import (
     TextFilterServiceStub,
     SingleTextFilterRequest,
@@ -95,6 +94,12 @@ class TextFilterClient:
         request = (SingleTextFilterRequest(input_string=input_, casefold=casefold) for input_ in input_strings)
         for response in self.client.MultiFilterStream(request):
             yield response.passed_filter
+
+    def webpage_filter(self) -> bool:
+        """
+        This is the client implementation of the TextFilter's web_filter method. For more info, see there.
+        """
+        ...
 
     def subscribe(self, callback: Callable) -> NoReturn:
         """

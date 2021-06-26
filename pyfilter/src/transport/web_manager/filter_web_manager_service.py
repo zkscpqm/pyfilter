@@ -1,3 +1,4 @@
+from pyfilter.config.config import Config
 from pyfilter.src.text_filter import TextFilter
 from pyfilter.src.transport.proto import (
     TextFilterManagerServicer,
@@ -6,22 +7,21 @@ from pyfilter.src.transport.proto import (
     UpdateKeywordsRequest, DeleteKeywordsRequest,
     FilterServerInfoRequest, FilterServerInfoResponse
 )
+from pyfilter.utils.logging import TextFilterLogger
 
 
 class TextFilterManagerService(TextFilterManagerServicer):
 
     def __init__(self, filter_svc: TextFilter, quiet: bool = True):
         self.__filter_svc = filter_svc
-        self.quiet = quiet
+        self.logger = TextFilterLogger(with_queue=True, debug_mode=Config.LOG_DEBUG_ENABLED, quiet=quiet)
 
     def GetKeywords(self, _: GetKeywordsRequest, __) -> KeywordsResponse:
-        if not self.quiet:
-            print(f'Received keywords GET request')
+        self.logger.info(f'Received keywords GET request')
         return self._build_response()
 
     def UpdateKeywords(self, request: UpdateKeywordsRequest, _) -> KeywordsResponse:
-        if not self.quiet:
-            print(f'Received keywords UPDATE request')
+        self.logger.info(f'Received keywords UPDATE request')
         self.__filter_svc.update_keywords(
             any_inclusion_keywords=request.keywords.any_keywords,
             all_inclusion_keywords=request.keywords.all_keywords,
@@ -30,8 +30,7 @@ class TextFilterManagerService(TextFilterManagerServicer):
         return self._build_response()
 
     def SetKeywords(self, request: SetKeywordsRequest, _) -> KeywordsResponse:
-        if not self.quiet:
-            print(f'Received keywords SET request')
+        self.logger.info(f'Received keywords SET request')
         self.__filter_svc.set_keywords(
             any_inclusion_keywords=request.keywords.any_keywords,
             all_inclusion_keywords=request.keywords.all_keywords,
@@ -41,8 +40,7 @@ class TextFilterManagerService(TextFilterManagerServicer):
         return self._build_response()
 
     def DeleteKeywords(self, request: DeleteKeywordsRequest, _) -> KeywordsResponse:
-        if not self.quiet:
-            print(f'Received keywords DELETE request')
+        self.logger.info(f'Received keywords DELETE request')
         self.__filter_svc.delete_keywords(
             any_inclusion_keywords=request.keywords.any_keywords,
             all_inclusion_keywords=request.keywords.all_keywords,
@@ -52,8 +50,7 @@ class TextFilterManagerService(TextFilterManagerServicer):
         return self._build_response()
 
     def ServerInfo(self, _: FilterServerInfoRequest, __) -> FilterServerInfoResponse:
-        if not self.quiet:
-            print(f'Received server info GET request')
+        self.logger.info(f'Received server info GET request')
         return FilterServerInfoResponse(
             server_url='localhost',
             server_port=8888,
